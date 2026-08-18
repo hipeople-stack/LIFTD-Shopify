@@ -207,9 +207,17 @@ templates/    JSON templates per page type
   never inline hex values in a section or snippet.
 - Keep sections dumb. Colour comes from `data-liftd-world`, type from the
   `.liftd-*` classes. A section should not know a hex value.
-- Cart is Shopify's native Liquid/Ajax cart. Do **not** build a Storefront API
-  cart in this theme — that decision was made deliberately and is documented
-  in the integration plan.
+- Cart is the **shared Storefront API cart** defined in `CART_CONTRACT.md` —
+  one Cart object shared with stayliftd.com via the `liftd_cart_id` cookie on
+  `.stayliftd.com`. `assets/liftd.js` owns it: it intercepts add-to-cart,
+  keeps `[data-cart-count]` in sync, and renders `/cart` from the shared cart.
+  It activates only when the "Storefront public access token" theme setting is
+  filled; without it the theme falls back to the native Liquid/Ajax cart so
+  the storefront still sells standalone. (An earlier version of this file
+  forbade the Storefront cart — that decision was reversed on 18 Aug 2026 at
+  the owner's request; the two surfaces were shipping two carts that never saw
+  each other.) The Liquid `cart` object is always empty in shared mode —
+  anything rendering from it outside the native fallback is a bug.
 
 ---
 
@@ -230,7 +238,6 @@ accessibility issues that don't surface until a customer hits them.
 
 Don't build these unless asked:
 
-- Storefront API cart or any cross-domain cart sync
 - Variant pickers, filtering, faceted search
 - Age gate UI (AgeChecker is an app install — leave a clean mount point)
 - Payment or shipping logic (Bankful and Shippo are Shopify-side config)

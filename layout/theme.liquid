@@ -20,6 +20,17 @@
     {{ 'archivo-var-latin.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
     {{ 'inter-var-latin.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
     {{ 'liftd.css' | asset_url | stylesheet_tag }}
+    {% comment %}
+      Shared cart config (CART_CONTRACT.md). The token is the PUBLIC
+      Storefront token — browser-safe by design. With no token set, liftd.js
+      falls back to the native Liquid/Ajax cart.
+    {% endcomment %}
+    <script>
+      window.LIFTD_SHARED_CART = {
+        token: {{ settings.storefront_public_token | json }},
+        apiVersion: "2025-10"
+      };
+    </script>
     <script src="{{ 'liftd.js' | asset_url }}" defer></script>
 
     {{ content_for_header }}

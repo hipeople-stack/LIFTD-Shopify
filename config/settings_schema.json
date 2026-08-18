@@ -19,6 +19,17 @@
     ]
   },
   {
+    "name": "Shared cart",
+    "settings": [
+      {
+        "type": "text",
+        "id": "storefront_public_token",
+        "label": "Storefront public access token",
+        "info": "Enables the cart shared with stayliftd.com (see CART_CONTRACT.md). This is the PUBLIC Storefront API token — safe to expose to browsers; never paste the private delegate token here. Leave empty to fall back to the standalone native cart."
+      }
+    ]
+  },
+  {
     "name": "Links",
     "settings": [
       {
