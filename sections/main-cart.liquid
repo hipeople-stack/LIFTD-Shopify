@@ -2,6 +2,26 @@
   <div class="liftd-wrapper">
     <h1 class="liftd-title" style="margin-bottom: 2rem;">{{ 'cart.title' | t }}</h1>
 
+    {%- comment -%}
+      Shared-cart mount (CART_CONTRACT.md). When the public Storefront token
+      is configured, liftd.js hides the native cart below and renders the
+      shared Storefront cart here — the Liquid cart is always empty then.
+    {%- endcomment -%}
+    <div
+      data-shared-cart
+      hidden
+      data-text-empty="{{ 'cart.empty' | t | escape }}"
+      data-text-continue="{{ 'cart.continue_shopping' | t | escape }}"
+      data-continue-url="{{ routes.all_products_collection_url }}"
+      data-text-subtotal="{{ 'cart.subtotal' | t | escape }}"
+      data-text-note="{{ 'cart.taxes_and_shipping_note' | t | escape }}"
+      data-text-checkout="{{ 'cart.checkout' | t | escape }}"
+      data-text-remove="{{ 'cart.remove' | t | escape }}"
+      data-text-decrease="{{ 'products.quantity.decrease' | t | escape }}"
+      data-text-increase="{{ 'products.quantity.increase' | t | escape }}"
+    ></div>
+
+    <div data-native-cart>
     {%- if cart.item_count == 0 -%}
       <div class="liftd-empty">
         <p class="liftd-lead">{{ 'cart.empty' | t }}</p>
@@ -74,6 +94,7 @@
         </div>
       </form>
     {%- endif -%}
+    </div>
   </div>
 </section>
 

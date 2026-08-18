@@ -14,8 +14,10 @@ it carries the compliance non-negotiables.
   templates, section groups, theme blocks).
 - `assets/liftd.css` is the single source of design tokens. No inline hex
   values in sections or snippets.
-- Native Liquid/Ajax cart. No Storefront API cart — deliberate decision,
-  documented in the integration plan.
+- **Shared Storefront API cart** with stayliftd.com via the `liftd_cart_id`
+  cookie on `.stayliftd.com` — see `CART_CONTRACT.md`. Enabled by the
+  "Storefront public access token" theme setting; with no token set the theme
+  falls back to the standalone native Liquid/Ajax cart.
 - Fonts are self-hosted in `assets/` (Anton + Archivo + Inter, all OFL,
   latin subsets, upright cuts only — the brand oblique is synthetic).
 
