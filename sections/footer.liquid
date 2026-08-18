@@ -1,0 +1,76 @@
+<footer class="liftd-footer">
+  <div class="liftd-wrapper">
+    <div class="liftd-footer__grid">
+      <div>
+        <a href="{{ routes.root_url }}" class="liftd-header__logo" aria-label="{{ shop.name }}">
+          {% render 'liftd-logo' %}
+        </a>
+        {%- if section.settings.tagline != blank -%}
+          <p class="liftd-lead" style="margin-top: 1rem;">{{ section.settings.tagline }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.menu != blank -%}
+        <nav aria-label="{{ 'general.footer.navigation' | t }}">
+          <h2 class="liftd-eyebrow">{{ 'general.footer.shop' | t }}</h2>
+          <ul class="liftd-footer__links" role="list">
+            {%- for link in section.settings.menu.links -%}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {%- endfor -%}
+          </ul>
+        </nav>
+      {%- endif -%}
+
+      {%- if section.settings.legal_menu != blank -%}
+        <nav aria-label="{{ 'general.footer.legal' | t }}">
+          <h2 class="liftd-eyebrow">{{ 'general.footer.the_fine_print' | t }}</h2>
+          <ul class="liftd-footer__links" role="list">
+            {%- for link in section.settings.legal_menu.links -%}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {%- endfor -%}
+          </ul>
+        </nav>
+      {%- endif -%}
+
+      <div>
+        <h2 class="liftd-eyebrow">{{ 'general.footer.follow' | t }}</h2>
+        <ul class="liftd-footer__links" role="list">
+          {%- if settings.social_instagram != blank -%}
+            <li><a href="{{ settings.social_instagram }}">Instagram</a></li>
+          {%- endif -%}
+          {%- if settings.social_tiktok != blank -%}
+            <li><a href="{{ settings.social_tiktok }}">TikTok</a></li>
+          {%- endif -%}
+          {%- if settings.main_site_url != blank -%}
+            <li><a href="{{ settings.main_site_url }}">stayliftd.com</a></li>
+          {%- endif -%}
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "Tastes like then. Hits like now."
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Shop menu",
+      "default": "footer"
+    },
+    {
+      "type": "link_list",
+      "id": "legal_menu",
+      "label": "Legal menu"
+    }
+  ]
+}
+{% endschema %}

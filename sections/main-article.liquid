@@ -1,0 +1,21 @@
+<article class="liftd-section liftd-section--paper">
+  <div class="liftd-wrapper">
+    <p class="liftd-eyebrow">{{ article.published_at | date: '%b %d, %Y' }}</p>
+    <h1 class="liftd-title" style="margin: 0.5rem 0 2rem;">{{ article.title }}</h1>
+    {%- if article.image -%}
+      <div style="margin-bottom: 2rem;">
+        {{ article.image | image_url: width: 1600 | image_tag: alt: article.image.alt, class: 'liftd-board' }}
+      </div>
+    {%- endif -%}
+    <div class="liftd-prose">
+      {{ article.content }}
+    </div>
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Article",
+  "settings": []
+}
+{% endschema %}

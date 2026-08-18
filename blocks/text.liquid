@@ -1,0 +1,18 @@
+<div class="liftd-prose" {{ block.shopify_attributes }}>
+  {{ block.settings.text }}
+</div>
+
+{% schema %}
+{
+  "name": "Text",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Old-school flavors, crisp carbonation, real cane sugar, so you actually taste it.</p>"
+    }
+  ],
+  "presets": [{ "name": "Text" }]
+}
+{% endschema %}

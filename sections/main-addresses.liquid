@@ -1,0 +1,72 @@
+<section class="liftd-section liftd-section--paper">
+  <div class="liftd-wrapper" style="max-width: 40rem;">
+    <h1 class="liftd-title" style="margin-bottom: 2rem;">{{ 'customer.addresses.title' | t }}</h1>
+
+    <div class="liftd-grid" style="grid-template-columns: 1fr; gap: 1.25rem; margin-bottom: 3rem;">
+      {%- for address in customer.addresses -%}
+        <div class="liftd-board" style="padding: 1.5rem;">
+          {%- if address == customer.default_address -%}
+            <p class="liftd-chip" style="margin-bottom: 0.75rem;">{{ 'customer.addresses.default' | t }}</p>
+          {%- endif -%}
+          <div class="liftd-body">{{ address | format_address }}</div>
+          <form method="post" action="{{ address.url }}" style="margin-top: 0.75rem;">
+            <input type="hidden" name="_method" value="delete">
+            <button
+              type="submit"
+              class="liftd-chip"
+              onclick="return confirm('{{ 'customer.addresses.delete_confirm' | t }}')"
+              style="cursor: pointer; background: transparent;"
+            >
+              {{ 'customer.addresses.delete' | t }}
+            </button>
+          </form>
+        </div>
+      {%- else -%}
+        <p class="liftd-body">{{ 'customer.addresses.none' | t }}</p>
+      {%- endfor -%}
+    </div>
+
+    <h2 class="liftd-subhead" style="margin-bottom: 1.25rem;">{{ 'customer.addresses.add_new' | t }}</h2>
+    {%- form 'customer_address', customer.new_address -%}
+      {{ form.errors | default_errors }}
+      <div class="liftd-field">
+        <label for="AddressFirstName">{{ 'customer.fields.first_name' | t }}</label>
+        <input id="AddressFirstName" class="liftd-input" type="text" name="address[first_name]" autocomplete="given-name">
+      </div>
+      <div class="liftd-field">
+        <label for="AddressLastName">{{ 'customer.fields.last_name' | t }}</label>
+        <input id="AddressLastName" class="liftd-input" type="text" name="address[last_name]" autocomplete="family-name">
+      </div>
+      <div class="liftd-field">
+        <label for="AddressAddress1">{{ 'customer.fields.address1' | t }}</label>
+        <input id="AddressAddress1" class="liftd-input" type="text" name="address[address1]" autocomplete="address-line1">
+      </div>
+      <div class="liftd-field">
+        <label for="AddressCity">{{ 'customer.fields.city' | t }}</label>
+        <input id="AddressCity" class="liftd-input" type="text" name="address[city]" autocomplete="address-level2">
+      </div>
+      <div class="liftd-field">
+        <label for="AddressProvince">{{ 'customer.fields.province' | t }}</label>
+        <input id="AddressProvince" class="liftd-input" type="text" name="address[province]" autocomplete="address-level1">
+      </div>
+      <div class="liftd-field">
+        <label for="AddressZip">{{ 'customer.fields.zip' | t }}</label>
+        <input id="AddressZip" class="liftd-input" type="text" name="address[zip]" autocomplete="postal-code">
+      </div>
+      <div class="liftd-field">
+        <label for="AddressCountry">{{ 'customer.fields.country' | t }}</label>
+        <select id="AddressCountry" class="liftd-select" name="address[country]" data-default="{{ customer.new_address.country }}">
+          {{ all_country_option_tags }}
+        </select>
+      </div>
+      <button type="submit" class="liftd-btn liftd-btn--pink">{{ 'customer.addresses.submit' | t }}</button>
+    {%- endform -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Addresses",
+  "settings": []
+}
+{% endschema %}

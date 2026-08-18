@@ -1,0 +1,57 @@
+<header class="liftd-header">
+  <div class="liftd-header__inner">
+    <a href="{{ routes.root_url }}" class="liftd-header__logo" aria-label="{{ shop.name }} &ndash; {{ 'general.home' | t }}">
+      {% render 'liftd-logo' %}
+    </a>
+
+    <button
+      type="button"
+      class="liftd-menu-toggle"
+      data-menu-toggle
+      aria-controls="SiteNav"
+      aria-expanded="false"
+      aria-label="{{ 'accessibility.menu' | t }}"
+    >
+      <svg width="20" height="14" viewBox="0 0 20 14" fill="none" aria-hidden="true" focusable="false">
+        <path d="M0 1h20M0 7h20M0 13h20" stroke="currentColor" stroke-width="2"/>
+      </svg>
+    </button>
+
+    <nav id="SiteNav" class="liftd-nav" aria-label="{{ 'accessibility.main_navigation' | t }}">
+      {%- for link in section.settings.menu.links -%}
+        <a
+          href="{{ link.url }}"
+          {% if link.current %}aria-current="page"{% endif %}
+        >
+          {{- link.title -}}
+        </a>
+      {%- endfor -%}
+
+      <a href="{{ routes.cart_url }}" class="liftd-header__cart">
+        {{ 'cart.title' | t }}
+        <span
+          class="liftd-cart-count"
+          data-cart-count
+          {% if cart.item_count == 0 %}hidden{% endif %}
+        >
+          {{- cart.item_count -}}
+        </span>
+        <span class="visually-hidden">{{ 'cart.items_count' | t: count: cart.item_count }}</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

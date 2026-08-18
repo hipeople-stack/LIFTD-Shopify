@@ -1,0 +1,1096 @@
+/* ==========================================================================
+   LIFTD — primary stylesheet
+   Single source of design tokens. Extracted from LIFTD Brand Guidelines v1.0.
+   Do not inline hex values in sections or snippets — add a token here.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Fonts — self-hosted, OFL.
+   The slant is synthetic: no italic cut is loaded, ever. Anton ships at 400
+   only. Archivo and Inter are variable latin subsets, upright only.
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Anton';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('anton-400-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('archivo-var-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('inter-var-latin.woff2') format('woff2');
+}
+
+/* --------------------------------------------------------------------------
+   2. Tokens
+   -------------------------------------------------------------------------- */
+:root {
+  /* Spine */
+  --ink: #0D0D10;
+  --paper: #FBF7EF;
+  --pink: #FF9BCA;
+
+  /* Flavour worlds — locked background/ink pairs. The ink is part of the
+     colour, not a choice. Never separate or substitute. */
+  --world-just-orange-bg: #FF6A1A;
+  --world-just-orange-ink: #252060;
+  --world-grape-bg: #6422A5;
+  --world-grape-ink: #D6FF3D;
+  --world-blue-rizz-bg: #1642BD;
+  --world-blue-rizz-ink: #FF9BCA;
+  --world-punch-bg: #C44AE0;
+  --world-punch-ink: #611126;
+
+  /* Active world (defaults to spine) */
+  --world-bg: var(--ink);
+  --world-ink: var(--paper);
+
+  /* Type */
+  --font-display: 'Anton', 'Arial Narrow', sans-serif;
+  --font-head: 'Archivo', 'Arial Black', sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  /* Components */
+  --shadow-large: 8px 8px 0;
+  --shadow-stamp: 7px 7px 0;
+  --shadow-small: 4px 4px 0;
+  --border-heavy: 3px solid;
+  --border-standard: 2px solid;
+  --radius-pill: 999px;
+  --radius-card: 0.875rem;
+  --radius-chip: 0.45rem;
+  --touch-target: 44px;
+
+  /* Layout */
+  --section-pad: clamp(5rem, 10vw, 9rem);
+  --wrapper: min(100% - 2.5rem, 80rem);
+
+  /* Motion */
+  --ease-signature: cubic-bezier(.16, 1.2, .3, 1);
+  --ease-standard: cubic-bezier(.2, .8, .2, 1);
+  --ease-world: cubic-bezier(.4, 0, .2, 1);
+  --dur-interaction: 160ms;
+  --dur-entrance: 600ms;
+  --dur-world: 600ms;
+}
+
+/* --------------------------------------------------------------------------
+   3. Base
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 450;
+  line-height: 1.6;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--pink);
+  outline-offset: 4px;
+}
+
+/* Pink focus ring is invisible on pink-adjacent grounds; borderline on
+   cream we keep the brand ring per spec, but on the pink accent itself
+   fall back to ink. */
+.liftd-btn--pink:focus-visible {
+  outline-color: var(--ink);
+}
+
+::placeholder {
+  /* Never opacity — real hex at 4.5:1+ on cream */
+  color: #5C5850;
+  opacity: 1;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-to-content {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 200;
+  transform: translateY(-200%);
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.9rem 1.5rem;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.skip-to-content:focus-visible {
+  transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   4. Typography
+   The oblique is browser-synthesised. Anton takes no font-weight, ever.
+   -------------------------------------------------------------------------- */
+.liftd-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-style: italic; /* synthetic — Anton has no italic cut */
+  font-synthesis-weight: none;
+  text-transform: uppercase;
+  font-size: clamp(3rem, 8vw, 7rem);
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+  margin: 0;
+  overflow-wrap: break-word;
+}
+
+.liftd-headline {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-style: italic; /* synthetic oblique */
+  text-transform: uppercase;
+  font-size: clamp(2.6rem, 7.5vw, 6.5rem);
+  letter-spacing: -0.035em;
+  line-height: 0.91;
+  margin: 0;
+  overflow-wrap: break-word;
+}
+
+.liftd-headline--sub {
+  font-size: clamp(1.9rem, 4.5vw, 3.4rem);
+}
+
+.liftd-subhead {
+  font-family: var(--font-head);
+  font-weight: 900;
+  font-style: normal;
+  text-transform: uppercase;
+  font-size: 1.375rem;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.liftd-eyebrow {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-style: normal;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  margin: 0;
+}
+
+.liftd-lead {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  line-height: 1.6;
+  max-width: 42rem;
+  margin: 0;
+}
+
+.liftd-body,
+.liftd-prose p {
+  font-family: var(--font-body);
+  font-weight: 450;
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 68ch;
+}
+
+.liftd-prose h2,
+.liftd-prose h3 {
+  font-family: var(--font-head);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1.15;
+}
+
+.liftd-prose a {
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   5. Layout
+   -------------------------------------------------------------------------- */
+.liftd-wrapper {
+  width: var(--wrapper);
+  margin-inline: auto;
+}
+
+.liftd-section {
+  padding-block: var(--section-pad);
+  background: var(--world-bg);
+  color: var(--world-ink);
+  transition: background-color var(--dur-world) var(--ease-world),
+    color var(--dur-world) var(--ease-world);
+}
+
+.liftd-section--paper {
+  --world-bg: var(--paper);
+  --world-ink: var(--ink);
+}
+
+.liftd-section--ink {
+  --world-bg: var(--ink);
+  --world-ink: var(--paper);
+}
+
+/* --------------------------------------------------------------------------
+   6. Flavour worlds — a world takes a whole section, edge to edge.
+   Drive with data-liftd-world on the section wrapper. Nothing downstream
+   needs to know which flavour it is.
+   -------------------------------------------------------------------------- */
+[data-liftd-world='just-orange'] {
+  --world-bg: var(--world-just-orange-bg);
+  --world-ink: var(--world-just-orange-ink);
+}
+
+[data-liftd-world='grape'] {
+  --world-bg: var(--world-grape-bg);
+  --world-ink: var(--world-grape-ink);
+}
+
+[data-liftd-world='blue-rizz'] {
+  --world-bg: var(--world-blue-rizz-bg);
+  --world-ink: var(--world-blue-rizz-ink);
+}
+
+[data-liftd-world='punch'] {
+  --world-bg: var(--world-punch-bg);
+  --world-ink: var(--world-punch-ink);
+}
+
+/* Blue Rizz (4.24:1) and Punch (3.34:1) pass only at display size.
+   Body copy in those worlds sits on a cream panel — use .liftd-copy. */
+.liftd-copy {
+  background: var(--paper);
+  color: var(--ink);
+  border: var(--border-standard) var(--ink);
+  border-radius: var(--radius-card);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  box-shadow: var(--shadow-small) var(--ink);
+}
+
+[data-liftd-world='just-orange'] .liftd-copy--auto,
+[data-liftd-world='grape'] .liftd-copy--auto {
+  /* AA-any-size worlds don't need the panel */
+  background: transparent;
+  color: inherit;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* --------------------------------------------------------------------------
+   7. Buttons & pills
+   Bordered and offset. No blur, no gradient, no soft elevation.
+   -------------------------------------------------------------------------- */
+.liftd-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  min-height: var(--touch-target);
+  min-width: var(--touch-target);
+  padding: 0.8rem 1.7rem;
+  border: var(--border-standard) currentColor;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: inherit;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-small) currentColor;
+  transition: transform var(--dur-interaction) var(--ease-standard),
+    box-shadow var(--dur-interaction) var(--ease-standard);
+}
+
+.liftd-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 currentColor;
+}
+
+.liftd-btn:active {
+  /* travel into the shadow — nothing shrinks */
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 currentColor;
+}
+
+.liftd-btn--solid {
+  background: var(--world-ink);
+  color: var(--world-bg);
+  border-color: var(--world-ink);
+  box-shadow: var(--shadow-small) var(--world-ink);
+}
+
+.liftd-btn--solid:hover {
+  box-shadow: 6px 6px 0 var(--world-ink);
+}
+
+.liftd-btn--solid:active {
+  box-shadow: 0 0 0 var(--world-ink);
+}
+
+.liftd-btn--pink {
+  background: var(--pink);
+  color: var(--ink);
+  border-color: var(--ink);
+  box-shadow: var(--shadow-small) var(--ink);
+}
+
+.liftd-btn--pink:hover {
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.liftd-btn--pink:active {
+  box-shadow: 0 0 0 var(--ink);
+}
+
+/* Stamped buttons — hero only. */
+.liftd-btn--stamped {
+  padding: 1.05rem 2.2rem;
+  font-size: 0.9rem;
+  border-width: 3px;
+  box-shadow: var(--shadow-stamp) var(--ink);
+}
+
+.liftd-btn--stamped:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 9px 9px 0 var(--ink);
+}
+
+.liftd-btn--stamped:active {
+  transform: translate(7px, 7px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+.liftd-btn[disabled],
+.liftd-btn[aria-disabled='true'] {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
+}
+
+.liftd-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 0.5rem 0.95rem;
+  border: var(--border-standard) currentColor;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-small) currentColor;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.liftd-chip {
+  display: inline-block;
+  padding: 0.3rem 0.7rem;
+  border: var(--border-standard) currentColor;
+  border-radius: var(--radius-chip);
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   8. Cards & boards
+   -------------------------------------------------------------------------- */
+.liftd-card {
+  display: block;
+  border: var(--border-heavy) var(--ink);
+  border-radius: var(--radius-card);
+  background: var(--world-bg);
+  color: var(--world-ink);
+  box-shadow: var(--shadow-large) var(--ink);
+  overflow: hidden;
+  text-decoration: none;
+  transition: transform var(--dur-interaction) var(--ease-standard),
+    box-shadow var(--dur-interaction) var(--ease-standard);
+}
+
+.liftd-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 10px 10px 0 var(--ink);
+}
+
+.liftd-card:active {
+  transform: translate(4px, 4px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.liftd-board {
+  border: var(--border-heavy) var(--ink);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-large) var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+}
+
+/* --------------------------------------------------------------------------
+   9. Forms
+   -------------------------------------------------------------------------- */
+.liftd-input,
+.liftd-select,
+.liftd-textarea {
+  width: 100%;
+  min-height: var(--touch-target);
+  padding: 0.7rem 1rem;
+  border: var(--border-standard) var(--ink);
+  border-radius: var(--radius-chip);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+}
+
+.liftd-field {
+  display: grid;
+  gap: 0.4rem;
+  margin-bottom: 1.1rem;
+}
+
+.liftd-field > label {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.liftd-qty {
+  display: inline-flex;
+  align-items: stretch;
+  border: var(--border-standard) var(--ink);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.liftd-qty button {
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+  border: 0;
+  background: transparent;
+  font-family: var(--font-head);
+  font-weight: 900;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.liftd-qty input {
+  width: 3.2rem;
+  border: 0;
+  text-align: center;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 0.95rem;
+  background: transparent;
+  color: inherit;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.liftd-qty input::-webkit-outer-spin-button,
+.liftd-qty input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+/* --------------------------------------------------------------------------
+   10. Header
+   -------------------------------------------------------------------------- */
+.liftd-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--ink);
+  color: var(--paper);
+  border-bottom: var(--border-standard) var(--ink);
+}
+
+.liftd-header__inner {
+  width: var(--wrapper);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  min-height: 4.25rem;
+}
+
+.liftd-header__logo {
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+}
+
+.liftd-header__logo svg,
+.liftd-header__logo img {
+  width: clamp(96px, 12vw, 132px);
+  height: auto;
+}
+
+.liftd-nav {
+  display: flex;
+  gap: 0.35rem;
+  margin-left: auto;
+  align-items: center;
+}
+
+.liftd-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-target);
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--radius-pill);
+  border: var(--border-standard) transparent;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: border-color var(--dur-interaction) var(--ease-standard);
+}
+
+.liftd-nav a:hover,
+.liftd-nav a[aria-current='page'] {
+  border-color: var(--pink);
+  color: var(--pink);
+}
+
+.liftd-header__cart {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.liftd-cart-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding-inline: 0.3rem;
+  border-radius: var(--radius-pill);
+  background: var(--pink);
+  color: var(--ink);
+  font-family: var(--font-head);
+  font-weight: 900;
+  font-size: 0.7rem;
+}
+
+.liftd-menu-toggle {
+  display: none;
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+  border: var(--border-standard) var(--paper);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--paper);
+  cursor: pointer;
+  margin-left: auto;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 47.9rem) {
+  .liftd-menu-toggle {
+    display: inline-flex;
+  }
+
+  .liftd-nav {
+    display: none;
+    position: absolute;
+    inset-inline: 0;
+    top: 100%;
+    background: var(--ink);
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1rem 1.25rem 1.5rem;
+    gap: 0.25rem;
+    border-bottom: var(--border-heavy) var(--pink);
+  }
+
+  .liftd-nav.is-open {
+    display: flex;
+  }
+
+  .liftd-nav a {
+    justify-content: center;
+  }
+}
+
+.liftd-announcement {
+  background: var(--pink);
+  color: var(--ink);
+  text-align: center;
+  padding: 0.55rem 1.25rem;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-style: italic;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   11. Footer & compliance
+   -------------------------------------------------------------------------- */
+.liftd-footer {
+  background: var(--ink);
+  color: var(--paper);
+  padding-block: clamp(3rem, 6vw, 5rem) 0;
+}
+
+.liftd-footer__grid {
+  display: grid;
+  gap: 2.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.liftd-footer a {
+  text-decoration: none;
+}
+
+.liftd-footer__links {
+  list-style: none;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.15rem;
+}
+
+.liftd-footer__links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-target);
+  font-weight: 500;
+}
+
+.liftd-footer__links a:hover {
+  color: var(--pink);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.liftd-compliance {
+  border-top: var(--border-standard) var(--paper);
+  background: var(--ink);
+  color: var(--paper);
+  padding-block: 2rem 2.5rem;
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+
+.liftd-compliance__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem 1.1rem;
+  margin-bottom: 1.25rem;
+  padding: 0;
+  list-style: none;
+}
+
+.liftd-compliance p {
+  max-width: 72ch;
+  margin: 0.35rem 0;
+}
+
+/* --------------------------------------------------------------------------
+   12. Hero
+   -------------------------------------------------------------------------- */
+.liftd-hero {
+  min-height: min(88vh, 56rem);
+  display: grid;
+  align-content: center;
+}
+
+.liftd-hero .liftd-title {
+  color: var(--paper);
+}
+
+.liftd-hero__accent {
+  color: var(--pink);
+}
+
+.liftd-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.4rem;
+  margin-top: 2.5rem;
+}
+
+.liftd-hero__badge {
+  display: inline-block;
+  background: var(--pink);
+  color: var(--ink);
+  border: var(--border-heavy) var(--ink);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-large) var(--ink);
+  padding: 0.8rem 1.4rem;
+  font-family: var(--font-head);
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  transform: rotate(-2deg);
+}
+
+/* --------------------------------------------------------------------------
+   13. Flavour grid & product cards
+   -------------------------------------------------------------------------- */
+.liftd-grid {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+}
+
+.liftd-product-card__media {
+  background: var(--world-bg);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  transition: background-color var(--dur-world) var(--ease-world);
+}
+
+.liftd-product-card__media img {
+  margin-inline: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: contain;
+  transition: transform var(--dur-entrance) var(--ease-signature);
+}
+
+.liftd-card:hover .liftd-product-card__media img {
+  transform: translateY(-6px) rotate(-2deg);
+}
+
+.liftd-product-card__body {
+  padding: 1.1rem 1.25rem 1.35rem;
+  display: grid;
+  gap: 0.45rem;
+  background: var(--world-bg);
+  color: var(--world-ink);
+}
+
+.liftd-product-card__title {
+  font-family: var(--font-head);
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  line-height: 0.95;
+  margin: 0;
+}
+
+.liftd-product-card__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.liftd-price {
+  font-family: var(--font-head);
+  font-weight: 900;
+  font-size: 1.05rem;
+}
+
+/* --------------------------------------------------------------------------
+   14. Product page
+   -------------------------------------------------------------------------- */
+.liftd-product {
+  display: grid;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: start;
+}
+
+@media (min-width: 60rem) {
+  .liftd-product {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  }
+}
+
+.liftd-product__media {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.liftd-product__media img {
+  width: 100%;
+  border: var(--border-heavy) var(--world-ink);
+  border-radius: var(--radius-card);
+  background: var(--world-bg);
+}
+
+.liftd-product__info {
+  display: grid;
+  gap: 1.4rem;
+}
+
+.liftd-product__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.liftd-product__buy {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* --------------------------------------------------------------------------
+   15. Cart
+   -------------------------------------------------------------------------- */
+.liftd-cart-line {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr) auto;
+  gap: 1.25rem;
+  align-items: center;
+  padding-block: 1.4rem;
+  border-bottom: var(--border-standard) var(--ink);
+}
+
+.liftd-cart-line__media img {
+  border: var(--border-standard) var(--ink);
+  border-radius: var(--radius-chip);
+  background: var(--world-bg);
+}
+
+@media (max-width: 40rem) {
+  .liftd-cart-line {
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+  }
+
+  .liftd-cart-line > :last-child {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
+
+.liftd-cart-summary {
+  margin-top: 2rem;
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  display: grid;
+  gap: 1rem;
+  justify-items: start;
+}
+
+.liftd-cart-summary__row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 2rem;
+  font-family: var(--font-head);
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+}
+
+/* --------------------------------------------------------------------------
+   16. FAQ / accordion
+   -------------------------------------------------------------------------- */
+.liftd-faq {
+  border: var(--border-standard) var(--ink);
+  border-radius: var(--radius-card);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--shadow-small) var(--ink);
+  margin-bottom: 1rem;
+}
+
+.liftd-faq summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  min-height: var(--touch-target);
+  padding: 1rem 1.25rem;
+  font-family: var(--font-head);
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 1rem;
+}
+
+.liftd-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.liftd-faq summary::after {
+  content: '+';
+  font-family: var(--font-head);
+  font-weight: 900;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.liftd-faq[open] summary::after {
+  content: '\2212';
+}
+
+.liftd-faq__body {
+  padding: 0 1.25rem 1.25rem;
+}
+
+/* --------------------------------------------------------------------------
+   17. Pagination, breadcrumbs, misc
+   -------------------------------------------------------------------------- */
+.liftd-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 3rem;
+  padding: 0;
+  list-style: none;
+}
+
+.liftd-pagination a,
+.liftd-pagination span {
+  display: inline-grid;
+  place-items: center;
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+  border: var(--border-standard) currentColor;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 0.8rem;
+  text-decoration: none;
+}
+
+.liftd-pagination [aria-current='page'] {
+  background: var(--pink);
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.liftd-empty {
+  text-align: center;
+  display: grid;
+  gap: 1.5rem;
+  justify-items: center;
+}
+
+/* --------------------------------------------------------------------------
+   18. Motion — stamp, don't fade. Overshoot and settle.
+   -------------------------------------------------------------------------- */
+@keyframes liftd-stamp-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.liftd-reveal {
+  animation: liftd-stamp-in var(--dur-entrance) var(--ease-signature) both;
+}
+
+.liftd-reveal:nth-child(2) { animation-delay: 70ms; }
+.liftd-reveal:nth-child(3) { animation-delay: 140ms; }
+.liftd-reveal:nth-child(4) { animation-delay: 210ms; }
+.liftd-reveal:nth-child(5) { animation-delay: 280ms; }
+.liftd-reveal:nth-child(6) { animation-delay: 350ms; }
+
+@supports (animation-timeline: view()) {
+  .liftd-reveal {
+    animation-duration: auto;
+    animation-timeline: view();
+    animation-range: entry 8% cover 28%;
+    animation-delay: 0s;
+  }
+}
+
+/* Reduced motion — REQUIRED. Everything resolves visible and in place. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .liftd-reveal {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

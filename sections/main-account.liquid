@@ -1,0 +1,49 @@
+<section class="liftd-section liftd-section--paper">
+  <div class="liftd-wrapper">
+    <h1 class="liftd-title" style="margin-bottom: 1rem;">{{ 'customer.account.title' | t }}</h1>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem;">
+      <a href="{{ routes.account_addresses_url }}" class="liftd-chip">{{ 'customer.account.view_addresses' | t }}</a>
+      <a href="{{ routes.account_logout_url }}" class="liftd-chip">{{ 'customer.account.log_out' | t }}</a>
+    </div>
+
+    <h2 class="liftd-subhead" style="margin-bottom: 1.25rem;">{{ 'customer.orders.title' | t }}</h2>
+    {%- paginate customer.orders by 20 -%}
+      {%- if customer.orders.size == 0 -%}
+        <p class="liftd-body">{{ 'customer.orders.none' | t }}</p>
+      {%- else -%}
+        <div class="liftd-board" style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; min-width: 36rem;">
+            <thead>
+              <tr>
+                <th class="liftd-eyebrow" style="text-align: left; padding: 1rem;">{{ 'customer.orders.order_number' | t }}</th>
+                <th class="liftd-eyebrow" style="text-align: left; padding: 1rem;">{{ 'customer.orders.date' | t }}</th>
+                <th class="liftd-eyebrow" style="text-align: left; padding: 1rem;">{{ 'customer.orders.payment_status' | t }}</th>
+                <th class="liftd-eyebrow" style="text-align: left; padding: 1rem;">{{ 'customer.orders.fulfillment_status' | t }}</th>
+                <th class="liftd-eyebrow" style="text-align: right; padding: 1rem;">{{ 'customer.orders.total' | t }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%- for order in customer.orders -%}
+                <tr>
+                  <td style="padding: 1rem;"><a href="{{ order.customer_url }}">{{ order.name }}</a></td>
+                  <td style="padding: 1rem;">{{ order.created_at | date: '%b %d, %Y' }}</td>
+                  <td style="padding: 1rem;">{{ order.financial_status_label }}</td>
+                  <td style="padding: 1rem;">{{ order.fulfillment_status_label }}</td>
+                  <td style="padding: 1rem; text-align: right;">{{ order.total_price | money }}</td>
+                </tr>
+              {%- endfor -%}
+            </tbody>
+          </table>
+        </div>
+        {% render 'liftd-pagination', paginate: paginate %}
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Account",
+  "settings": []
+}
+{% endschema %}

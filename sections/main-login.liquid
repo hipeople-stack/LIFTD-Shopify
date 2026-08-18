@@ -1,0 +1,44 @@
+<section class="liftd-section liftd-section--paper">
+  <div class="liftd-wrapper" style="max-width: 30rem;">
+    <h1 class="liftd-title" style="margin-bottom: 2rem;">{{ 'customer.login.title' | t }}</h1>
+
+    {%- form 'customer_login' -%}
+      {{ form.errors | default_errors }}
+      <div class="liftd-field">
+        <label for="CustomerEmail">{{ 'customer.fields.email' | t }}</label>
+        <input id="CustomerEmail" class="liftd-input" type="email" name="customer[email]" autocomplete="email" required>
+      </div>
+      <div class="liftd-field">
+        <label for="CustomerPassword">{{ 'customer.fields.password' | t }}</label>
+        <input id="CustomerPassword" class="liftd-input" type="password" name="customer[password]" autocomplete="current-password" required>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+        <button type="submit" class="liftd-btn liftd-btn--pink">{{ 'customer.login.submit' | t }}</button>
+        <a href="#recover" class="liftd-chip">{{ 'customer.login.forgot_password' | t }}</a>
+        <a href="{{ routes.account_register_url }}" class="liftd-chip">{{ 'customer.login.create_account' | t }}</a>
+      </div>
+    {%- endform -%}
+
+    <div id="recover" style="margin-top: 3rem;">
+      <h2 class="liftd-subhead" style="margin-bottom: 1rem;">{{ 'customer.recover.title' | t }}</h2>
+      {%- form 'recover_customer_password' -%}
+        {{ form.errors | default_errors }}
+        {%- if form.posted_successfully? -%}
+          <p class="liftd-body" role="status">{{ 'customer.recover.success' | t }}</p>
+        {%- endif -%}
+        <div class="liftd-field">
+          <label for="RecoverEmail">{{ 'customer.fields.email' | t }}</label>
+          <input id="RecoverEmail" class="liftd-input" type="email" name="email" autocomplete="email" required>
+        </div>
+        <button type="submit" class="liftd-btn">{{ 'customer.recover.submit' | t }}</button>
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Login",
+  "settings": []
+}
+{% endschema %}

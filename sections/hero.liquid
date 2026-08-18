@@ -1,0 +1,88 @@
+<section class="liftd-section liftd-section--ink liftd-hero">
+  <div class="liftd-wrapper">
+    {%- if section.settings.badge != blank -%}
+      <p class="liftd-hero__badge liftd-reveal">{{ section.settings.badge }}</p>
+    {%- endif -%}
+
+    <h1 class="liftd-title liftd-reveal" style="margin-top: 1.5rem;">
+      {{ section.settings.heading_line_1 }}
+      {%- if section.settings.heading_line_2 != blank -%}
+        <br>
+        <span class="liftd-hero__accent">{{ section.settings.heading_line_2 }}</span>
+      {%- endif -%}
+    </h1>
+
+    {%- if section.settings.lead != blank -%}
+      <p class="liftd-lead liftd-reveal" style="margin-top: 1.75rem;">{{ section.settings.lead }}</p>
+    {%- endif -%}
+
+    <div class="liftd-hero__actions">
+      {%- comment -%} Stamped buttons are hero-only. Nowhere else. {%- endcomment -%}
+      {%- if section.settings.primary_label != blank -%}
+        <a href="{{ section.settings.primary_link }}" class="liftd-btn liftd-btn--pink liftd-btn--stamped liftd-reveal">
+          {{ section.settings.primary_label }}
+        </a>
+      {%- endif -%}
+      {%- if section.settings.secondary_label != blank -%}
+        <a href="{{ section.settings.secondary_link }}" class="liftd-btn liftd-btn--stamped liftd-reveal">
+          {{ section.settings.secondary_label }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge",
+      "default": "Hemp-derived THC. Zero alcohol."
+    },
+    {
+      "type": "text",
+      "id": "heading_line_1",
+      "label": "Heading line 1",
+      "default": "Tastes like then."
+    },
+    {
+      "type": "text",
+      "id": "heading_line_2",
+      "label": "Heading line 2",
+      "default": "Hits like now."
+    },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "Lead paragraph",
+      "default": "The nostalgic flavors you grew up on, all grown up. 3mg THC + 9mg CBG per 12oz can. You set the pace."
+    },
+    {
+      "type": "text",
+      "id": "primary_label",
+      "label": "Primary button label",
+      "default": "Get LIFTD"
+    },
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "Secondary button label",
+      "default": "Meet the flavors"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Secondary button link"
+    }
+  ],
+  "presets": [{ "name": "Hero" }]
+}
+{% endschema %}

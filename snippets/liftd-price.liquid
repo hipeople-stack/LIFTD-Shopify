@@ -1,0 +1,15 @@
+{% comment %}
+  Price for a product or variant.
+  Accepts: item (product or variant object)
+{% endcomment %}
+{%- liquid
+  assign price = item.price
+  assign compare = item.compare_at_price
+-%}
+<span class="liftd-price">
+  {%- if compare > price -%}
+    <s>{{ compare | money }}</s>
+    <span class="visually-hidden">{{ 'products.price.sale' | t }}</span>
+  {%- endif -%}
+  {{ price | money }}
+</span>

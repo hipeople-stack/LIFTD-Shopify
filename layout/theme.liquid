@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+      {{ page_title }}
+      {%- if current_page != 1 %} &ndash; {{ 'general.pagination.page' | t: page: current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    <link rel="canonical" href="{{ canonical_url }}">
+    {% render 'liftd-meta-tags' %}
+
+    {{ 'anton-400-latin.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+    {{ 'archivo-var-latin.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+    {{ 'inter-var-latin.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+    {{ 'liftd.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'liftd.js' | asset_url }}" defer></script>
+
+    {{ content_for_header }}
+  </head>
+
+  <body>
+    <a href="#MainContent" class="skip-to-content">{{ 'accessibility.skip_to_content' | t }}</a>
+
+    {% comment %}
+      Age gate mount point. AgeChecker is installed as an app — the theme
+      ships no age gate UI of its own. Leave this element in place.
+    {% endcomment %}
+    <div id="age-gate-mount"></div>
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    {% comment %}
+      Compliance block — rendered from the layout on purpose so it exists on
+      every page and cannot be removed in the theme editor. Do not move it
+      into a section group. See snippets/liftd-compliance-footer.liquid.
+    {% endcomment %}
+    {% render 'liftd-compliance-footer' %}
+  </body>
+</html>

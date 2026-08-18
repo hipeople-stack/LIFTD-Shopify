@@ -1,0 +1,85 @@
+<section class="liftd-section liftd-section--paper">
+  <div class="liftd-wrapper">
+    <h1 class="liftd-title" style="margin-bottom: 2rem;">{{ 'cart.title' | t }}</h1>
+
+    {%- if cart.item_count == 0 -%}
+      <div class="liftd-empty">
+        <p class="liftd-lead">{{ 'cart.empty' | t }}</p>
+        <a href="{{ routes.all_products_collection_url }}" class="liftd-btn liftd-btn--pink">
+          {{ 'cart.continue_shopping' | t }}
+        </a>
+      </div>
+    {%- else -%}
+      <form action="{{ routes.cart_url }}" method="post">
+        <div role="list">
+          {%- for item in cart.items -%}
+            <div class="liftd-cart-line" role="listitem">
+              <div class="liftd-cart-line__media">
+                {%- if item.image -%}
+                  <a href="{{ item.url }}">
+                    {{ item.image | image_url: width: 240 | image_tag: alt: item.image.alt }}
+                  </a>
+                {%- endif -%}
+              </div>
+
+              <div>
+                <p class="liftd-subhead" style="font-size: 1.05rem;">
+                  <a href="{{ item.url }}" style="text-decoration: none;">{{ item.product.title }}</a>
+                </p>
+                {%- unless item.product.has_only_default_variant -%}
+                  <p class="liftd-eyebrow" style="margin-top: 0.3rem;">{{ item.variant.title }}</p>
+                {%- endunless -%}
+                <p style="margin: 0.4rem 0 0;">{% render 'liftd-price', item: item %}</p>
+              </div>
+
+              <div style="display: grid; gap: 0.6rem; justify-items: end;">
+                <div class="liftd-qty">
+                  <button type="button" data-qty-step="down" aria-label="{{ 'products.quantity.decrease' | t }}">&minus;</button>
+                  <label class="visually-hidden" for="CartQty-{{ forloop.index }}">
+                    {{- 'products.quantity.label' | t }} &ndash; {{ item.product.title -}}
+                  </label>
+                  <input
+                    id="CartQty-{{ forloop.index }}"
+                    type="number"
+                    name="updates[]"
+                    value="{{ item.quantity }}"
+                    min="0"
+                    inputmode="numeric"
+                    data-cart-line-qty="{{ forloop.index }}"
+                  >
+                  <button type="button" data-qty-step="up" aria-label="{{ 'products.quantity.increase' | t }}">+</button>
+                </div>
+                <a
+                  href="{{ item.url_to_remove }}"
+                  data-cart-line-remove="{{ forloop.index }}"
+                  class="liftd-chip"
+                >
+                  {{- 'cart.remove' | t -}}
+                </a>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div class="liftd-board liftd-cart-summary">
+          <div class="liftd-cart-summary__row">
+            <span>{{ 'cart.subtotal' | t }}</span>
+            <span>{{ cart.total_price | money }}</span>
+          </div>
+          <p class="liftd-body" style="margin: 0;">{{ 'cart.taxes_and_shipping_note' | t }}</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+            <button type="submit" name="update" class="liftd-btn">{{ 'cart.update' | t }}</button>
+            <button type="submit" name="checkout" class="liftd-btn liftd-btn--pink">{{ 'cart.checkout' | t }}</button>
+          </div>
+        </div>
+      </form>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": []
+}
+{% endschema %}

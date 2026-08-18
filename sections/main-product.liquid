@@ -1,0 +1,108 @@
+{%- liquid
+  assign world = product.metafields.custom.flavour_world | default: ''
+  assign variant = product.selected_or_first_available_variant
+-%}
+<section
+  class="liftd-section"
+  {% if world != blank %}data-liftd-world="{{ world }}"{% endif %}
+>
+  <div class="liftd-wrapper">
+    <div class="liftd-product">
+      <div class="liftd-product__media">
+        {%- for media in product.media limit: 4 -%}
+          {%- liquid
+            assign loading = 'lazy'
+            if forloop.first
+              assign loading = 'eager'
+            endif
+          -%}
+          {%- if media.media_type == 'image' -%}
+            {{
+              media
+              | image_url: width: 1400
+              | image_tag:
+                widths: '700, 1000, 1400',
+                sizes: '(min-width: 60rem) 40rem, 92vw',
+                alt: media.alt,
+                loading: loading
+            }}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      <div class="liftd-product__info">
+        {%- comment -%} The one Anton title on this page. {%- endcomment -%}
+        <h1 class="liftd-title" style="font-size: clamp(3rem, 6vw, 5.5rem);">{{ product.title }}</h1>
+
+        {%- comment -%}
+          Approved, locked product facts only. Do not add calories or onset
+          times here — they are unresolved. See the compliance notes.
+        {%- endcomment -%}
+        <ul class="liftd-product__pills" role="list">
+          <li class="liftd-pill">3mg THC + 9mg CBG per 12oz can</li>
+          <li class="liftd-pill">Hemp-derived THC</li>
+          <li class="liftd-pill">Zero alcohol</li>
+          <li class="liftd-pill">21+ only</li>
+        </ul>
+
+        {% render 'liftd-price', item: variant %}
+
+        {%- if product.description != blank -%}
+          <div class="liftd-copy liftd-copy--auto liftd-prose">
+            {{ product.description }}
+          </div>
+        {%- endif -%}
+
+        {%- comment -%}
+          One variant per product ("Pack Size: 4-Pack"). No picker — the
+          variant id ships as a hidden input. If the catalog grows a picker,
+          that's a deliberate change, not a default.
+        {%- endcomment -%}
+        {%- form 'product', product, data-ajax-add: 'true' -%}
+          <input type="hidden" name="id" value="{{ variant.id }}">
+
+          <div class="liftd-product__buy">
+            <div class="liftd-qty">
+              <button type="button" data-qty-step="down" aria-label="{{ 'products.quantity.decrease' | t }}">&minus;</button>
+              <label class="visually-hidden" for="Quantity-{{ section.id }}">{{ 'products.quantity.label' | t }}</label>
+              <input
+                id="Quantity-{{ section.id }}"
+                type="number"
+                name="quantity"
+                value="1"
+                min="1"
+                inputmode="numeric"
+              >
+              <button type="button" data-qty-step="up" aria-label="{{ 'products.quantity.increase' | t }}">+</button>
+            </div>
+
+            <button
+              type="submit"
+              class="liftd-btn liftd-btn--pink"
+              {% unless variant.available %}disabled{% endunless %}
+              data-adding-text="{{ 'products.add_to_cart_loading' | t }}"
+              data-added-text="{{ 'products.added_to_cart' | t }}"
+            >
+              {%- if variant.available -%}
+                {{ 'products.add_to_cart' | t }}
+              {%- else -%}
+                {{ 'products.sold_out' | t }}
+              {%- endif -%}
+            </button>
+          </div>
+
+          <p data-add-status role="status" aria-live="polite" class="liftd-body" style="margin: 0.75rem 0 0;"></p>
+        {%- endform -%}
+
+        <p class="liftd-eyebrow">{{ variant.title }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": []
+}
+{% endschema %}
