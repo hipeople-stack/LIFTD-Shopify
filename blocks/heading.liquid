@@ -1,0 +1,18 @@
+<h3 class="liftd-subhead" {{ block.shopify_attributes }}>
+  {{ block.settings.heading }}
+</h3>
+
+{% schema %}
+{
+  "name": "Heading",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Built on CBG"
+    }
+  ],
+  "presets": [{ "name": "Heading" }]
+}
+{% endschema %}

@@ -1,0 +1,33 @@
+<section class="liftd-section liftd-section--paper">
+  <div class="liftd-wrapper" style="max-width: 30rem;">
+    <h1 class="liftd-title" style="margin-bottom: 2rem;">{{ 'customer.register.title' | t }}</h1>
+
+    {%- form 'create_customer' -%}
+      {{ form.errors | default_errors }}
+      <div class="liftd-field">
+        <label for="RegisterFirstName">{{ 'customer.fields.first_name' | t }}</label>
+        <input id="RegisterFirstName" class="liftd-input" type="text" name="customer[first_name]" autocomplete="given-name">
+      </div>
+      <div class="liftd-field">
+        <label for="RegisterLastName">{{ 'customer.fields.last_name' | t }}</label>
+        <input id="RegisterLastName" class="liftd-input" type="text" name="customer[last_name]" autocomplete="family-name">
+      </div>
+      <div class="liftd-field">
+        <label for="RegisterEmail">{{ 'customer.fields.email' | t }}</label>
+        <input id="RegisterEmail" class="liftd-input" type="email" name="customer[email]" autocomplete="email" required>
+      </div>
+      <div class="liftd-field">
+        <label for="RegisterPassword">{{ 'customer.fields.password' | t }}</label>
+        <input id="RegisterPassword" class="liftd-input" type="password" name="customer[password]" autocomplete="new-password" required>
+      </div>
+      <button type="submit" class="liftd-btn liftd-btn--pink">{{ 'customer.register.submit' | t }}</button>
+    {%- endform -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Register",
+  "settings": []
+}
+{% endschema %}

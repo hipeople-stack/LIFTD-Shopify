@@ -1,0 +1,43 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "LIFTD",
+    "theme_version": "1.0.0",
+    "theme_author": "LIFTD",
+    "theme_documentation_url": "https://stayliftd.com",
+    "theme_support_url": "https://stayliftd.com"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo image",
+        "info": "Optional. Leave empty to use the built-in LIFTD mark, which takes one colour from the ground it sits on. Minimum display width is 96px."
+      }
+    ]
+  },
+  {
+    "name": "Links",
+    "settings": [
+      {
+        "type": "url",
+        "id": "main_site_url",
+        "label": "Main site URL",
+        "info": "The primary brand site. The storefront links back to it in the footer.",
+        "default": "https://stayliftd.com"
+      },
+      {
+        "type": "url",
+        "id": "social_instagram",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "url",
+        "id": "social_tiktok",
+        "label": "TikTok URL"
+      }
+    ]
+  }
+]

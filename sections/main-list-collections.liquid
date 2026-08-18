@@ -1,0 +1,26 @@
+<section class="liftd-section liftd-section--paper">
+  <div class="liftd-wrapper">
+    <h1 class="liftd-title" style="margin-bottom: 2rem;">{{ 'collections.list_title' | t }}</h1>
+    <div class="liftd-grid">
+      {%- for collection in collections -%}
+        <a href="{{ collection.url }}" class="liftd-card liftd-reveal">
+          {%- if collection.featured_image -%}
+            <div class="liftd-product-card__media">
+              {{ collection.featured_image | image_url: width: 900 | image_tag: alt: collection.featured_image.alt }}
+            </div>
+          {%- endif -%}
+          <div class="liftd-product-card__body">
+            <h2 class="liftd-product-card__title">{{ collection.title }}</h2>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collections list",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,28 @@
+{% comment %}
+  The LIFTD mark. One colour, drawn from the ground it sits on — the SVG
+  fills with currentColor so it inherits its context. Never two-tone, never
+  below 96px wide. If a logo image is uploaded in theme settings it wins.
+{% endcomment %}
+{%- if settings.logo != blank -%}
+  {{
+    settings.logo
+    | image_url: width: 300
+    | image_tag: alt: shop.name, widths: '150, 300', class: 'liftd-logo-img'
+  }}
+{%- else -%}
+  <svg
+    viewBox="0 0 1870 305"
+    fill="currentColor"
+    fill-rule="evenodd"
+    role="img"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path d="M0 0h110v195h230v110H0Z"/>
+    <path d="M380 0h120v305H380Z"/>
+    <path d="M540 0h340v110H650v40h200v90H650v65H540Z"/>
+    <path d="M920 0h400v110h-145v195h-110V110H920Z"/>
+    <path d="M1360 0h290c140 0 220 60 220 152.5S1790 305 1650 305h-290Zm110 105v95h170c60 0 90-17 90-47.5s-30-47.5-90-47.5Z"/>
+  </svg>
+  <span class="visually-hidden">{{ shop.name }}</span>
+{%- endif -%}

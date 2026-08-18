@@ -1,0 +1,61 @@
+{%- liquid
+  if section.settings.collection != blank
+    assign products = section.settings.collection.products
+  else
+    assign products = collections.all.products
+  endif
+-%}
+<section class="liftd-section liftd-section--paper">
+  <div class="liftd-wrapper">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="liftd-eyebrow liftd-reveal">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="liftd-headline liftd-reveal" style="margin: 0.5rem 0 2.5rem;">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    <div class="liftd-grid">
+      {%- for product in products limit: section.settings.limit -%}
+        {% render 'liftd-product-card', card_product: product %}
+      {%- else -%}
+        <p class="liftd-body">{{ 'sections.flavour_grid.empty' | t }}</p>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Flavour grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Four flavors"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "All the flavor."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection",
+      "info": "Leave empty to show all products."
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Maximum products",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4
+    }
+  ],
+  "presets": [{ "name": "Flavour grid" }]
+}
+{% endschema %}

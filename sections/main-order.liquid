@@ -1,0 +1,42 @@
+<section class="liftd-section liftd-section--paper">
+  <div class="liftd-wrapper">
+    <h1 class="liftd-title" style="margin-bottom: 0.5rem;">{{ 'customer.order.title' | t: name: order.name }}</h1>
+    <p class="liftd-eyebrow" style="margin-bottom: 2rem;">{{ order.created_at | date: '%B %d, %Y' }}</p>
+
+    <div class="liftd-board" style="overflow-x: auto; margin-bottom: 2rem;">
+      <table style="width: 100%; border-collapse: collapse; min-width: 30rem;">
+        <thead>
+          <tr>
+            <th class="liftd-eyebrow" style="text-align: left; padding: 1rem;">{{ 'customer.order.product' | t }}</th>
+            <th class="liftd-eyebrow" style="text-align: right; padding: 1rem;">{{ 'customer.order.quantity' | t }}</th>
+            <th class="liftd-eyebrow" style="text-align: right; padding: 1rem;">{{ 'customer.order.total' | t }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for line_item in order.line_items -%}
+            <tr>
+              <td style="padding: 1rem;">{{ line_item.title }}</td>
+              <td style="padding: 1rem; text-align: right;">{{ line_item.quantity }}</td>
+              <td style="padding: 1rem; text-align: right;">{{ line_item.final_line_price | money }}</td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2" class="liftd-eyebrow" style="padding: 1rem;">{{ 'customer.order.total' | t }}</td>
+            <td style="padding: 1rem; text-align: right;"><strong>{{ order.total_price | money }}</strong></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <a href="{{ routes.account_url }}" class="liftd-btn">{{ 'customer.order.back' | t }}</a>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Order",
+  "settings": []
+}
+{% endschema %}

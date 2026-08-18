@@ -1,0 +1,28 @@
+<section class="liftd-section liftd-section--paper">
+  <div class="liftd-wrapper">
+    <h1 class="liftd-title" style="margin-bottom: 0.75rem;">{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}
+      <div class="liftd-prose" style="margin-bottom: 2rem;">{{ collection.description }}</div>
+    {%- endif -%}
+
+    {%- paginate collection.products by 12 -%}
+      <div class="liftd-grid">
+        {%- for product in collection.products -%}
+          {% render 'liftd-product-card', card_product: product %}
+        {%- else -%}
+          <div class="liftd-empty">
+            <p class="liftd-lead">{{ 'collections.empty' | t }}</p>
+          </div>
+        {%- endfor -%}
+      </div>
+      {% render 'liftd-pagination', paginate: paginate %}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": []
+}
+{% endschema %}

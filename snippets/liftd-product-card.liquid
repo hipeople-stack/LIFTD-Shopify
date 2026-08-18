@@ -1,0 +1,54 @@
+{% comment %}
+  Flavour card. The world takeover comes from data-liftd-world — the card
+  itself never knows a hex value.
+  Accepts: card_product (product object)
+{% endcomment %}
+{%- liquid
+  assign world = card_product.metafields.custom.flavour_world | default: ''
+  case world
+    when 'just-orange'
+      assign tagline = 'Refreshing'
+    when 'grape'
+      assign tagline = 'Legendary'
+    when 'blue-rizz'
+      assign tagline = 'Undefeated'
+    when 'punch'
+      assign tagline = 'Nostalgic'
+    else
+      assign tagline = ''
+  endcase
+-%}
+<a
+  href="{{ card_product.url }}"
+  class="liftd-card liftd-reveal"
+  {% if world != blank %}data-liftd-world="{{ world }}"{% endif %}
+>
+  <div class="liftd-product-card__media">
+    {%- if card_product.featured_image -%}
+      {{
+        card_product.featured_image
+        | image_url: width: 900
+        | image_tag:
+          widths: '450, 700, 900',
+          sizes: '(min-width: 60rem) 22rem, 90vw',
+          alt: card_product.featured_image.alt
+      }}
+    {%- endif -%}
+  </div>
+  <div class="liftd-product-card__body">
+    {%- if tagline != blank -%}
+      <p class="liftd-eyebrow">{{ tagline }}</p>
+    {%- endif -%}
+    <h3 class="liftd-product-card__title">{{ card_product.title }}</h3>
+    <div class="liftd-product-card__meta">
+      {% render 'liftd-price', item: card_product %}
+      <span class="liftd-chip">
+        {%- if card_product.available -%}
+          {{ 'products.card.shop_now' | t }}
+        {%- else -%}
+          {{ 'products.sold_out' | t }}
+        {%- endif -%}
+      </span>
+    </div>
+  </div>
+</a>

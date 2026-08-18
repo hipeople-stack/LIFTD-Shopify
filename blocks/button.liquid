@@ -1,0 +1,33 @@
+{%- if block.settings.label != blank -%}
+  <p {{ block.shopify_attributes }}>
+    <a href="{{ block.settings.link }}" class="liftd-btn{% if block.settings.pink %} liftd-btn--pink{% endif %}">
+      {{ block.settings.label }}
+    </a>
+  </p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Button",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "Get LIFTD"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "pink",
+      "label": "Pink accent",
+      "default": false
+    }
+  ],
+  "presets": [{ "name": "Button" }]
+}
+{% endschema %}
