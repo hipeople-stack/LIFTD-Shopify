@@ -1,0 +1,24 @@
+# Diagnostic only — safe to delete once shop.stayliftd.com TLS is healthy.
+name: TLS probe
+
+on:
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe shop.stayliftd.com TLS
+        run: |
+          set +e
+          for host in shop.stayliftd.com bkpqmz-2f.myshopify.com; do
+            echo "===================================================="
+            echo "== DNS $host"
+            dig +short "$host" A "$host" AAAA "$host" CNAME || true
+            echo "== openssl s_client $host"
+            echo | timeout 20 openssl s_client -connect "$host:443" -servername "$host" 2>&1 | head -40
+            echo "== curl -sv https://$host/ (headers only)"
+            curl -svo /dev/null --max-time 20 "https://$host/" 2>&1 | grep -Ei 'SSL|TLS|certificate|subject|issuer|expire|HTTP/|location|error' | head -30
+            echo
+          done
+          exit 0
