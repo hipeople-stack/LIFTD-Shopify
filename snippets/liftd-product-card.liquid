@@ -1,29 +1,28 @@
 {% comment %}
-  Flavour card. The world takeover comes from data-liftd-world — the card
-  itself never knows a hex value.
+  Flavour card (home catalog grid). The world takeover comes from
+  data-liftd-world — the card never knows a hex value.
   Accepts: card_product (product object)
 {% endcomment %}
 {%- liquid
   assign world = card_product.metafields.custom.flavour_world | default: ''
-  case world
-    when 'just-orange'
-      assign tagline = 'Refreshing'
-    when 'grape'
-      assign tagline = 'Legendary'
-    when 'blue-rizz'
-      assign tagline = 'Undefeated'
-    when 'punch'
-      assign tagline = 'Nostalgic'
-    else
-      assign tagline = ''
-  endcase
+  capture tag
+    render 'liftd-flavour-copy', world: world, field: 'tag'
+  endcapture
+  assign tag = tag | strip
+  capture tagline
+    render 'liftd-flavour-copy', world: world, field: 'tagline'
+  endcapture
+  assign tagline = tagline | strip
 -%}
 <a
   href="{{ card_product.url }}"
-  class="liftd-card liftd-reveal"
+  class="liftd-flavour-card liftd-reveal"
   {% if world != blank %}data-liftd-world="{{ world }}"{% endif %}
 >
-  <div class="liftd-product-card__media">
+  <div class="liftd-flavour-card__media">
+    {%- if tag != blank -%}
+      <span class="liftd-chip liftd-flavour-card__tag">{{ tag }}</span>
+    {%- endif -%}
     {%- if card_product.featured_image -%}
       {{
         card_product.featured_image
@@ -31,24 +30,17 @@
         | image_tag:
           widths: '450, 700, 900',
           sizes: '(min-width: 60rem) 22rem, 90vw',
-          alt: card_product.featured_image.alt
+          alt: card_product.featured_image.alt | default: card_product.title
       }}
     {%- endif -%}
   </div>
-  <div class="liftd-product-card__body">
+  <div class="liftd-flavour-card__body">
+    <h3 class="liftd-flavour-card__title">{{ card_product.title }}</h3>
     {%- if tagline != blank -%}
-      <p class="liftd-eyebrow">{{ tagline }}</p>
+      <p class="liftd-flavour-card__tagline">{{ tagline }}</p>
     {%- endif -%}
-    <h3 class="liftd-product-card__title">{{ card_product.title }}</h3>
-    <div class="liftd-product-card__meta">
-      {% render 'liftd-price', item: card_product %}
-      <span class="liftd-chip">
-        {%- if card_product.available -%}
-          {{ 'products.card.shop_now' | t }}
-        {%- else -%}
-          {{ 'products.sold_out' | t }}
-        {%- endif -%}
-      </span>
-    </div>
+    <span class="liftd-flavour-card__link">
+      {{ 'products.card.meet' | t: title: card_product.title }} <span aria-hidden="true">&rarr;</span>
+    </span>
   </div>
 </a>

@@ -1,0 +1,59 @@
+{%- liquid
+  assign world = product.metafields.custom.flavour_world | default: ''
+  capture owns_head
+    render 'liftd-flavour-copy', world: world, field: 'owns_head'
+  endcapture
+  assign owns_head = owns_head | strip
+  capture owns_sub
+    render 'liftd-flavour-copy', world: world, field: 'owns_sub'
+  endcapture
+  assign owns_sub = owns_sub | strip
+-%}
+<section class="liftd-section liftd-section--pink">
+  <div class="liftd-wrapper">
+    <div class="liftd-band liftd-reveal">
+      <div class="liftd-band__text">
+        <p class="liftd-eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- if owns_head != blank -%}
+          <h2 class="liftd-headline liftd-headline--sub">{{ owns_head }}</h2>
+        {%- endif -%}
+        {%- if owns_sub != blank -%}
+          <p class="liftd-body" style="max-width: 40rem;">{{ owns_sub }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.lab_label != blank -%}
+        <div class="liftd-actions">
+          <a href="{{ section.settings.lab_link }}" class="liftd-btn liftd-btn--ink">
+            {{ section.settings.lab_label }}
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product owns",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "This flavor owns"
+    },
+    {
+      "type": "text",
+      "id": "lab_label",
+      "label": "Lab results label",
+      "default": "See the lab results"
+    },
+    {
+      "type": "url",
+      "id": "lab_link",
+      "label": "Lab results link"
+    }
+  ]
+}
+{% endschema %}

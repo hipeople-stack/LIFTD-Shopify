@@ -1,16 +1,41 @@
 {
   "sections": {
-    "main": {
-      "type": "main-product",
-      "settings": {}
-    },
-    "flavours": {
-      "type": "flavour-grid",
+    "hero": {
+      "type": "product-hero",
       "settings": {
-        "eyebrow": "Keep going",
-        "heading": "The other flavors."
+        "add_label": "Add 4-pack to cart",
+        "store_locator_label": "Find it in store"
+      }
+    },
+    "flavor": {
+      "type": "product-flavor",
+      "settings": {
+        "eyebrow": "The flavor",
+        "specs_heading": "The specs"
+      }
+    },
+    "owns": {
+      "type": "product-owns",
+      "settings": {
+        "eyebrow": "This flavor owns",
+        "lab_label": "See the lab results"
+      }
+    },
+    "faq": {
+      "type": "product-faq",
+      "settings": {
+        "heading": "Straight answers.",
+        "more_label": "All the questions, answered"
+      }
+    },
+    "others": {
+      "type": "product-others",
+      "settings": {
+        "heading": "Try the others.",
+        "primary_label": "Shop the lineup",
+        "secondary_label": "Find it near you"
       }
     }
   },
-  "order": ["main", "flavours"]
+  "order": ["hero", "flavor", "owns", "faq", "others"]
 }

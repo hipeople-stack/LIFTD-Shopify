@@ -1,5 +1,9 @@
 <section class="liftd-section liftd-section--ink liftd-hero">
   <div class="liftd-wrapper">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="liftd-eyebrow liftd-reveal">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+
     {%- if section.settings.badge != blank -%}
       <p class="liftd-hero__badge liftd-reveal">{{ section.settings.badge }}</p>
     {%- endif -%}
@@ -38,9 +42,16 @@
   "settings": [
     {
       "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The lineup"
+    },
+    {
+      "type": "text",
       "id": "badge",
       "label": "Badge",
-      "default": "Hemp-derived THC. Zero alcohol."
+      "info": "Optional rotated badge. Leave empty for the clean catalog hero.",
+      "default": ""
     },
     {
       "type": "text",

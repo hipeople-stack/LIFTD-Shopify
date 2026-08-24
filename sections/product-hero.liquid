@@ -1,0 +1,114 @@
+{%- liquid
+  assign world = product.metafields.custom.flavour_world | default: ''
+  assign variant = product.selected_or_first_available_variant
+  capture tag
+    render 'liftd-flavour-copy', world: world, field: 'tag'
+  endcapture
+  assign tag = tag | strip
+  capture tagline
+    render 'liftd-flavour-copy', world: world, field: 'hero_tagline'
+  endcapture
+  assign tagline = tagline | strip
+-%}
+<section
+  class="liftd-section liftd-phero"
+  {% if world != blank %}data-liftd-world="{{ world }}"{% endif %}
+>
+  <div class="liftd-wrapper">
+    <p class="liftd-eyebrow liftd-phero__crumb liftd-reveal">
+      <a href="{{ routes.root_url }}" style="text-decoration: none;">{{ 'products.breadcrumb.flavors' | t }}</a>
+      &nbsp;/&nbsp;{{ product.title }}
+    </p>
+
+    {%- if tag != blank -%}
+      <span class="liftd-chip liftd-reveal">{{ tag }}</span>
+    {%- endif -%}
+
+    {%- comment -%} The one Anton title on this page. {%- endcomment -%}
+    <h1 class="liftd-title liftd-reveal" style="margin-top: 1.25rem;">{{ product.title }}</h1>
+
+    {%- if tagline != blank -%}
+      <p class="liftd-headline liftd-headline--sub liftd-phero__tagline liftd-reveal">{{ tagline }}</p>
+    {%- endif -%}
+
+    <div class="liftd-actions liftd-phero__actions liftd-reveal">
+      {%- if variant.available -%}
+        {%- form 'product', product, data-ajax-add: 'true', class: 'liftd-phero__buy' -%}
+          <input type="hidden" name="id" value="{{ variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button
+            type="submit"
+            class="liftd-btn liftd-btn--ink"
+            data-adding-text="{{ 'products.add_to_cart_loading' | t }}"
+            data-added-text="{{ 'products.added_to_cart' | t }}"
+          >
+            {{ section.settings.add_label }} &middot; {{ variant.price | money }} <span aria-hidden="true">&rarr;</span>
+          </button>
+        {%- endform -%}
+      {%- else -%}
+        <a href="{{ section.settings.shop_link | default: settings.main_site_url }}" class="liftd-btn liftd-btn--ink">
+          {{ 'products.sold_out_shop' | t }}
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.store_locator_label != blank -%}
+        <a href="{{ section.settings.store_locator_link }}" class="liftd-btn liftd-btn--paper">
+          {{ section.settings.store_locator_label }}
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.shop_link != blank or settings.main_site_url != blank -%}
+        <a href="{{ section.settings.shop_link | default: settings.main_site_url }}" class="liftd-textlink">
+          {{ 'products.view_in_shop' | t }} <span aria-hidden="true">&rarr;</span>
+        </a>
+      {%- endif -%}
+    </div>
+
+    <p data-add-status role="status" aria-live="polite" class="liftd-phero__price-note"></p>
+
+    {%- if product.featured_image -%}
+      <div class="liftd-phero__media liftd-reveal">
+        {{
+          product.featured_image
+          | image_url: width: 1000
+          | image_tag:
+            widths: '400, 700, 1000',
+            sizes: '(min-width: 60rem) 24rem, 70vw',
+            alt: product.featured_image.alt | default: product.title,
+            loading: 'eager'
+        }}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "add_label",
+      "label": "Add-to-cart label",
+      "default": "Add 4-pack to cart"
+    },
+    {
+      "type": "url",
+      "id": "shop_link",
+      "label": "Shop link",
+      "info": "Where \"Sold out — check the shop\" and \"View in the shop\" point. Defaults to the main site URL."
+    },
+    {
+      "type": "text",
+      "id": "store_locator_label",
+      "label": "Store locator label",
+      "default": "Find it in store"
+    },
+    {
+      "type": "url",
+      "id": "store_locator_link",
+      "label": "Store locator link"
+    }
+  ]
+}
+{% endschema %}

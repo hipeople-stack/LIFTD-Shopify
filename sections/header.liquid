@@ -4,18 +4,45 @@
       {% render 'liftd-logo' %}
     </a>
 
-    <button
-      type="button"
-      class="liftd-menu-toggle"
-      data-menu-toggle
-      aria-controls="SiteNav"
-      aria-expanded="false"
-      aria-label="{{ 'accessibility.menu' | t }}"
-    >
-      <svg width="20" height="14" viewBox="0 0 20 14" fill="none" aria-hidden="true" focusable="false">
-        <path d="M0 1h20M0 7h20M0 13h20" stroke="currentColor" stroke-width="2"/>
-      </svg>
-    </button>
+    <div class="liftd-header__actions">
+      {%- if section.settings.cta_label != blank -%}
+        <a
+          href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}"
+          class="liftd-btn liftd-btn--pink liftd-header__cta"
+        >
+          {{ section.settings.cta_label }}
+        </a>
+      {%- endif -%}
+
+      <a href="{{ routes.cart_url }}" class="liftd-cart-btn" aria-label="{{ 'cart.title' | t }}">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+          <path d="M2 4h2l1.5 9.5A2 2 0 0 0 7.48 15H15a2 2 0 0 0 1.96-1.6L18 7H5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="8" cy="18" r="1.2" fill="currentColor"/>
+          <circle cx="15" cy="18" r="1.2" fill="currentColor"/>
+        </svg>
+        <span
+          class="liftd-cart-count"
+          data-cart-count
+          {% if cart.item_count == 0 %}hidden{% endif %}
+        >
+          {{- cart.item_count -}}
+        </span>
+        <span class="visually-hidden">{{ 'cart.items_count' | t: count: cart.item_count }}</span>
+      </a>
+
+      <button
+        type="button"
+        class="liftd-menu-toggle"
+        data-menu-toggle
+        aria-controls="SiteNav"
+        aria-expanded="false"
+        aria-label="{{ 'accessibility.menu' | t }}"
+      >
+        <svg width="20" height="14" viewBox="0 0 20 14" fill="none" aria-hidden="true" focusable="false">
+          <path d="M0 1h20M0 7h20M0 13h20" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </button>
+    </div>
 
     <nav id="SiteNav" class="liftd-nav" aria-label="{{ 'accessibility.main_navigation' | t }}">
       {%- for link in section.settings.menu.links -%}
@@ -26,18 +53,6 @@
           {{- link.title -}}
         </a>
       {%- endfor -%}
-
-      <a href="{{ routes.cart_url }}" class="liftd-header__cart">
-        {{ 'cart.title' | t }}
-        <span
-          class="liftd-cart-count"
-          data-cart-count
-          {% if cart.item_count == 0 %}hidden{% endif %}
-        >
-          {{- cart.item_count -}}
-        </span>
-        <span class="visually-hidden">{{ 'cart.items_count' | t: count: cart.item_count }}</span>
-      </a>
     </nav>
   </div>
 </header>
@@ -51,6 +66,18 @@
       "id": "menu",
       "label": "Menu",
       "default": "main-menu"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA button label",
+      "default": "Get LIFTD"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA button link",
+      "info": "Where the header CTA points. Defaults to the catalog if empty."
     }
   ]
 }

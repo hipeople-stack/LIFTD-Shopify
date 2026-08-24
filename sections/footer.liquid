@@ -1,20 +1,42 @@
 <footer class="liftd-footer">
   <div class="liftd-wrapper">
-    <div class="liftd-footer__grid">
-      <div>
-        <a href="{{ routes.root_url }}" class="liftd-header__logo" aria-label="{{ shop.name }}">
-          {% render 'liftd-logo' %}
-        </a>
-        {%- if section.settings.tagline != blank -%}
-          <p class="liftd-lead" style="margin-top: 1rem;">{{ section.settings.tagline }}</p>
-        {%- endif -%}
-      </div>
+    <div class="liftd-footer__brand">
+      <a href="{{ routes.root_url }}" class="liftd-header__logo" aria-label="{{ shop.name }}">
+        {% render 'liftd-logo' %}
+      </a>
+      {%- if section.settings.tagline != blank -%}
+        <p class="liftd-footer__stay">{{ section.settings.tagline }}</p>
+      {%- endif -%}
+    </div>
 
-      {%- if section.settings.menu != blank -%}
-        <nav aria-label="{{ 'general.footer.navigation' | t }}">
-          <h2 class="liftd-eyebrow">{{ 'general.footer.shop' | t }}</h2>
+    <div class="liftd-footer__grid">
+      {%- if section.settings.shop_menu != blank -%}
+        <nav aria-label="{{ 'general.footer.shop' | t }}">
+          <h2 class="liftd-eyebrow">{{ section.settings.shop_heading }}</h2>
           <ul class="liftd-footer__links" role="list">
-            {%- for link in section.settings.menu.links -%}
+            {%- for link in section.settings.shop_menu.links -%}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {%- endfor -%}
+          </ul>
+        </nav>
+      {%- endif -%}
+
+      {%- if section.settings.learn_menu != blank -%}
+        <nav aria-label="{{ section.settings.learn_heading }}">
+          <h2 class="liftd-eyebrow">{{ section.settings.learn_heading }}</h2>
+          <ul class="liftd-footer__links" role="list">
+            {%- for link in section.settings.learn_menu.links -%}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {%- endfor -%}
+          </ul>
+        </nav>
+      {%- endif -%}
+
+      {%- if section.settings.company_menu != blank -%}
+        <nav aria-label="{{ section.settings.company_heading }}">
+          <h2 class="liftd-eyebrow">{{ section.settings.company_heading }}</h2>
+          <ul class="liftd-footer__links" role="list">
+            {%- for link in section.settings.company_menu.links -%}
               <li><a href="{{ link.url }}">{{ link.title }}</a></li>
             {%- endfor -%}
           </ul>
@@ -23,7 +45,7 @@
 
       {%- if section.settings.legal_menu != blank -%}
         <nav aria-label="{{ 'general.footer.legal' | t }}">
-          <h2 class="liftd-eyebrow">{{ 'general.footer.the_fine_print' | t }}</h2>
+          <h2 class="liftd-eyebrow">{{ 'general.footer.legal' | t }}</h2>
           <ul class="liftd-footer__links" role="list">
             {%- for link in section.settings.legal_menu.links -%}
               <li><a href="{{ link.url }}">{{ link.title }}</a></li>
@@ -31,22 +53,25 @@
           </ul>
         </nav>
       {%- endif -%}
-
-      <div>
-        <h2 class="liftd-eyebrow">{{ 'general.footer.follow' | t }}</h2>
-        <ul class="liftd-footer__links" role="list">
-          {%- if settings.social_instagram != blank -%}
-            <li><a href="{{ settings.social_instagram }}">Instagram</a></li>
-          {%- endif -%}
-          {%- if settings.social_tiktok != blank -%}
-            <li><a href="{{ settings.social_tiktok }}">TikTok</a></li>
-          {%- endif -%}
-          {%- if settings.main_site_url != blank -%}
-            <li><a href="{{ settings.main_site_url }}">stayliftd.com</a></li>
-          {%- endif -%}
-        </ul>
-      </div>
     </div>
+
+    {%- if section.settings.phone != blank or section.settings.support_email != blank or section.settings.wholesale_email != blank -%}
+      <div class="liftd-footer__contact">
+        {%- if section.settings.phone != blank -%}
+          <a href="tel:{{ section.settings.phone | remove: ' ' | remove: '-' | remove: '(' | remove: ')' }}">{{ section.settings.phone }}</a>
+        {%- endif -%}
+        {%- if section.settings.support_email != blank -%}
+          <a href="mailto:{{ section.settings.support_email }}">{{ section.settings.support_email }}</a>
+        {%- endif -%}
+        {%- if section.settings.wholesale_email != blank -%}
+          <a href="mailto:{{ section.settings.wholesale_email }}">{{ section.settings.wholesale_email }}</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.flavours_line != blank -%}
+      <p class="liftd-footer__flavours">{{ section.settings.flavours_line }}</p>
+    {%- endif -%}
   </div>
 </footer>
 
@@ -58,18 +83,78 @@
       "type": "text",
       "id": "tagline",
       "label": "Tagline",
-      "default": "Tastes like then. Hits like now."
+      "default": "Stay LIFTD."
+    },
+    {
+      "type": "header",
+      "content": "Columns"
+    },
+    {
+      "type": "text",
+      "id": "shop_heading",
+      "label": "Shop heading",
+      "default": "Shop"
     },
     {
       "type": "link_list",
-      "id": "menu",
+      "id": "shop_menu",
       "label": "Shop menu",
       "default": "footer"
+    },
+    {
+      "type": "text",
+      "id": "learn_heading",
+      "label": "Learn heading",
+      "default": "Learn"
+    },
+    {
+      "type": "link_list",
+      "id": "learn_menu",
+      "label": "Learn menu"
+    },
+    {
+      "type": "text",
+      "id": "company_heading",
+      "label": "Company heading",
+      "default": "Company"
+    },
+    {
+      "type": "link_list",
+      "id": "company_menu",
+      "label": "Company menu"
     },
     {
       "type": "link_list",
       "id": "legal_menu",
       "label": "Legal menu"
+    },
+    {
+      "type": "header",
+      "content": "Contact"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Phone",
+      "default": "860-420-BUDS (2837)"
+    },
+    {
+      "type": "text",
+      "id": "support_email",
+      "label": "Support email",
+      "default": "support@stayliftd.com"
+    },
+    {
+      "type": "text",
+      "id": "wholesale_email",
+      "label": "Wholesale email",
+      "default": "wholesale@stayliftd.com"
+    },
+    {
+      "type": "text",
+      "id": "flavours_line",
+      "label": "Flavours line",
+      "default": "Just Orange · Grape · Blue Rizz · Punch"
     }
   ]
 }
