@@ -71,9 +71,15 @@
       "sale": "Sale price"
     },
     "card": {
-      "shop_now": "Shop now"
+      "shop_now": "Shop now",
+      "meet": "Meet {{ title }}"
+    },
+    "breadcrumb": {
+      "flavors": "Flavors"
     },
     "sold_out": "Sold out",
+    "sold_out_shop": "Sold out — check the shop",
+    "view_in_shop": "View in the shop",
     "add_to_cart": "Add to cart",
     "add_to_cart_loading": "Adding…",
     "added_to_cart": "Added",

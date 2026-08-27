@@ -1,0 +1,48 @@
+{% comment %}
+  "Every can. Same build." — the shared spec, as locked benefit pills.
+  Pills are hardcoded approved facts (no free-text settings) so unapproved
+  numbers can't be introduced from the customizer. Calories resolved at 80.
+{% endcomment %}
+<section class="liftd-section liftd-section--pink">
+  <div class="liftd-wrapper">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="liftd-headline liftd-reveal" style="margin: 0 0 2rem;">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    <ul class="liftd-build__pills liftd-reveal" role="list">
+      <li class="liftd-pill">12oz can</li>
+      <li class="liftd-pill">3mg THC + 9mg CBG</li>
+      <li class="liftd-pill">80 calories</li>
+      <li class="liftd-pill">Real cane sugar</li>
+      <li class="liftd-pill">Electrolytes</li>
+      <li class="liftd-pill">No artificial colors</li>
+      <li class="liftd-pill">Zero alcohol</li>
+    </ul>
+
+    {%- if section.settings.note != blank -%}
+      <p class="liftd-lead liftd-build__note liftd-reveal">{{ section.settings.note }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Build strip",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Every can. Same build."
+    },
+    {
+      "type": "textarea",
+      "id": "note",
+      "label": "Note",
+      "info": "Approved facts only. No onset time, no therapeutic claims.",
+      "default": "Hemp-derived THC, made and tested in Connecticut. Every batch published on our lab results page."
+    }
+  ],
+  "presets": [{ "name": "Build strip" }]
+}
+{% endschema %}

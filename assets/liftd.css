@@ -739,12 +739,20 @@ button {
 }
 
 .liftd-compliance {
-  border-top: var(--border-standard) var(--paper);
   background: var(--ink);
   color: var(--paper);
-  padding-block: 2rem 2.5rem;
-  font-size: 0.85rem;
+  padding-block: 2rem clamp(3rem, 6vw, 4rem);
+  font-size: 0.8rem;
   line-height: 1.65;
+}
+.liftd-compliance__legal {
+  max-width: 64rem;
+  margin: 0 0 2rem;
+  color: rgba(251, 247, 239, 0.5);
+}
+.liftd-compliance__copy {
+  margin: 0;
+  color: rgba(251, 247, 239, 0.5);
 }
 
 .liftd-compliance__facts {
@@ -1093,4 +1101,595 @@ button {
     opacity: 1 !important;
     transform: none !important;
   }
+}
+
+/* ==========================================================================
+   19. 2026-08 refresh — catalog home + flavour-world product pages.
+   New surfaces only; spine tokens above are unchanged.
+   ========================================================================== */
+
+/* Extra ground + button variants -------------------------------------- */
+.liftd-section--pink {
+  --world-bg: var(--pink);
+  --world-ink: var(--ink);
+}
+
+/* Always-ink / always-paper buttons — used where a button must stay a fixed
+   colour regardless of the flavour world it sits in (e.g. the product hero,
+   where world-ink can be a bright volt or pink and would fail as a fill). */
+.liftd-btn--ink {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+  box-shadow: var(--shadow-small) var(--ink);
+}
+.liftd-btn--ink:hover { box-shadow: 6px 6px 0 var(--ink); }
+.liftd-btn--ink:active { box-shadow: 0 0 0 var(--ink); }
+
+.liftd-btn--paper {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: var(--ink);
+  box-shadow: var(--shadow-small) var(--ink);
+}
+.liftd-btn--paper:hover { box-shadow: 6px 6px 0 var(--ink); }
+.liftd-btn--paper:active { box-shadow: 0 0 0 var(--ink); }
+
+/* Text link with the trailing-arrow treatment (world-ink, underlined). */
+.liftd-textlink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  min-height: var(--touch-target);
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  text-decoration-thickness: 2px;
+}
+
+.liftd-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.25rem;
+  align-items: center;
+}
+
+/* Home hero eyebrow reads pink over the ink ground. */
+.liftd-hero .liftd-eyebrow { color: var(--pink); }
+
+/* Flavour cards (home catalog grid) ----------------------------------- */
+.liftd-flavour-card {
+  display: flex;
+  flex-direction: column;
+  border: var(--border-heavy) var(--ink);
+  border-radius: var(--radius-card);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--shadow-large) var(--ink);
+  overflow: hidden;
+  text-decoration: none;
+  transition: transform var(--dur-interaction) var(--ease-standard),
+    box-shadow var(--dur-interaction) var(--ease-standard);
+}
+.liftd-flavour-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 10px 10px 0 var(--ink);
+}
+.liftd-flavour-card:active {
+  transform: translate(4px, 4px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+.liftd-flavour-card__media {
+  position: relative;
+  background: var(--world-bg);
+  color: var(--world-ink);
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+  min-height: 15rem;
+  display: grid;
+  place-items: center;
+  transition: background-color var(--dur-world) var(--ease-world);
+}
+.liftd-flavour-card__media img {
+  aspect-ratio: 4 / 5;
+  object-fit: contain;
+  max-height: 17rem;
+  transition: transform var(--dur-entrance) var(--ease-signature);
+}
+.liftd-flavour-card:hover .liftd-flavour-card__media img {
+  transform: translateY(-6px) rotate(-2deg);
+}
+.liftd-flavour-card__tag {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: var(--paper);
+  color: var(--ink);
+  border: var(--border-standard) var(--ink);
+  box-shadow: var(--shadow-small) var(--ink);
+}
+.liftd-flavour-card__body {
+  padding: 1.25rem 1.4rem 1.5rem;
+  display: grid;
+  gap: 0.4rem;
+}
+.liftd-flavour-card__title {
+  font-family: var(--font-head);
+  font-weight: 900;
+  font-style: normal;
+  text-transform: uppercase;
+  font-size: clamp(1.35rem, 2.6vw, 1.75rem);
+  line-height: 1;
+  margin: 0;
+}
+.liftd-flavour-card__tagline {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+.liftd-flavour-card__link {
+  margin-top: 0.35rem;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  display: inline-flex;
+  gap: 0.4em;
+}
+.liftd-flavour-card:hover .liftd-flavour-card__link {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  text-decoration-thickness: 2px;
+}
+
+/* Comparison board — SIDE BY SIDE ------------------------------------- */
+.liftd-compare-wrap {
+  overflow-x: auto;
+  border: var(--border-heavy) var(--ink);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-large) var(--ink);
+  background: var(--paper);
+}
+.liftd-compare {
+  width: 100%;
+  min-width: 44rem;
+  border-collapse: collapse;
+  color: var(--ink);
+}
+.liftd-compare th,
+.liftd-compare td {
+  text-align: left;
+  padding: 1rem 1.15rem;
+  border-bottom: var(--border-standard) var(--ink);
+  vertical-align: top;
+}
+.liftd-compare thead th {
+  font-family: var(--font-head);
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+}
+.liftd-compare thead th:first-child { background: var(--ink); }
+.liftd-compare tbody th {
+  font-family: var(--font-head);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+.liftd-compare tbody td { font-size: 0.95rem; }
+.liftd-compare tbody tr:last-child th,
+.liftd-compare tbody tr:last-child td { border-bottom: 0; }
+
+/* Build strip pills reuse .liftd-pill (currentColor = ink on the pink band). */
+.liftd-build__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 0.85rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.75rem;
+}
+.liftd-build__note { max-width: 52rem; margin: 0; }
+
+/* CTA band + generic split band (owns) -------------------------------- */
+.liftd-band {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
+  justify-content: space-between;
+}
+.liftd-band__text { max-width: 40rem; display: grid; gap: 0.9rem; }
+
+/* Product hero — full world takeover ---------------------------------- */
+.liftd-phero {
+  position: relative;
+  overflow: hidden;
+  min-height: min(78vh, 46rem);
+  display: grid;
+  align-content: start;
+}
+.liftd-phero__crumb { margin: 0 0 1.5rem; }
+.liftd-phero .liftd-title { color: var(--world-ink); margin: 0; }
+.liftd-phero__tagline {
+  margin: 1.25rem 0 0;
+  color: var(--world-ink);
+}
+.liftd-phero__actions { margin-top: 2.25rem; }
+.liftd-phero__price-note {
+  margin: 1.25rem 0 0;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.liftd-phero__media {
+  margin-top: clamp(2rem, 6vw, 4rem);
+  display: grid;
+  place-items: center;
+}
+.liftd-phero__media img {
+  max-height: min(46vh, 24rem);
+  width: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: contain;
+  filter: drop-shadow(10px 14px 0 rgba(13, 13, 16, 0.22));
+  animation: liftd-float 5s ease-in-out infinite;
+}
+@keyframes liftd-float {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-12px) rotate(-3deg); }
+}
+.liftd-phero__buy { display: contents; }
+
+/* THE FLAVOR ---------------------------------------------------------- */
+.liftd-flavour__lead {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: clamp(1.15rem, 2.4vw, 1.6rem);
+  line-height: 1.45;
+  max-width: 46rem;
+  margin: 0.75rem 0 0;
+}
+.liftd-flavour__body { margin: 1.25rem 0 0; }
+.liftd-traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  list-style: none;
+  padding: 0;
+  margin: 1.75rem 0 0;
+}
+.liftd-trait {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.95rem;
+  border: var(--border-standard) var(--world-ink);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-small) var(--world-ink);
+  background: var(--world-bg);
+  color: var(--world-ink);
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+/* Blue Rizz (4.24:1) and Punch (3.34:1) fail world-ink at pill size —
+   substitute an AA text colour on the same world fill. Non-negotiable #6. */
+.liftd-traits[data-liftd-world='blue-rizz'] .liftd-trait {
+  color: var(--paper);
+  border-color: var(--paper);
+  box-shadow: var(--shadow-small) var(--paper);
+}
+.liftd-traits[data-liftd-world='punch'] .liftd-trait {
+  color: var(--ink);
+  border-color: var(--ink);
+  box-shadow: var(--shadow-small) var(--ink);
+}
+
+/* THE SPECS — dark board with a pink edge ----------------------------- */
+.liftd-specs {
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  background: var(--ink);
+  color: var(--paper);
+  border: var(--border-heavy) var(--pink);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-large) var(--pink);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  max-width: 52rem;
+}
+.liftd-specs__title {
+  color: var(--pink);
+  font-family: var(--font-head);
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: clamp(1.3rem, 3vw, 1.9rem);
+  letter-spacing: -0.02em;
+  margin: 0 0 1.25rem;
+}
+.liftd-specs__row {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-top: 1px solid rgba(251, 247, 239, 0.16);
+}
+.liftd-specs__row:first-of-type { border-top: 0; padding-top: 0; }
+.liftd-specs__key {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pink);
+}
+.liftd-specs__val { margin: 0; font-size: 0.95rem; line-height: 1.5; }
+@media (max-width: 34rem) {
+  .liftd-specs__row { grid-template-columns: 1fr; gap: 0.2rem; }
+}
+
+/* TRY THE OTHERS — compact cards -------------------------------------- */
+.liftd-mini-grid {
+  display: grid;
+  gap: clamp(1.25rem, 3vw, 2rem);
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+}
+.liftd-mini {
+  display: flex;
+  flex-direction: column;
+  border: var(--border-heavy) var(--paper);
+  border-radius: var(--radius-card);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--shadow-large) var(--pink);
+  overflow: hidden;
+  text-decoration: none;
+  transition: transform var(--dur-interaction) var(--ease-standard),
+    box-shadow var(--dur-interaction) var(--ease-standard);
+}
+.liftd-mini:hover { transform: translate(-2px, -2px); box-shadow: 10px 10px 0 var(--pink); }
+.liftd-mini:active { transform: translate(4px, 4px); box-shadow: 2px 2px 0 var(--pink); }
+.liftd-mini__media {
+  background: var(--world-bg);
+  color: var(--world-ink);
+  min-height: 10rem;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+}
+.liftd-mini__media img {
+  max-height: 10rem;
+  aspect-ratio: 4 / 5;
+  object-fit: contain;
+}
+.liftd-mini__bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1.15rem;
+  font-family: var(--font-head);
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: 1rem;
+}
+
+/* FAQ footer link ----------------------------------------------------- */
+.liftd-faq-more { margin-top: 1.75rem; }
+
+/* Header — mirrors stayliftd.com <SiteHeader/> ------------------------ */
+.liftd-header__inner { justify-content: space-between; }
+
+.liftd-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+@media (min-width: 40rem) { .liftd-header__actions { gap: 0.75rem; } }
+
+.liftd-header__cta {
+  padding: 0.6rem 1.15rem;
+  font-size: 0.72rem;
+}
+@media (max-width: 39.99rem) { .liftd-header__cta { display: none; } }
+
+.liftd-cart-btn {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+  border: var(--border-standard) rgba(251, 247, 239, 0.25);
+  border-radius: var(--radius-pill);
+  background: rgba(251, 247, 239, 0.10);
+  color: var(--paper);
+  text-decoration: none;
+  cursor: pointer;
+}
+.liftd-cart-btn:hover { border-color: var(--pink); color: var(--pink); }
+.liftd-cart-btn .liftd-cart-count { position: absolute; top: -6px; right: -6px; }
+
+/* Inline desktop nav — visible at >=64rem, like stayliftd's lg:flex nav */
+.liftd-header__nav { display: none; }
+@media (min-width: 64rem) {
+  .liftd-header__nav { display: flex; align-items: center; gap: 1.5rem; }
+}
+.liftd-header__nav a {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--paper);
+  transition: color var(--dur-interaction) var(--ease-standard);
+}
+.liftd-header__nav a:hover,
+.liftd-header__nav a[aria-current='page'] { color: var(--pink); }
+
+/* Hamburger — only below 64rem */
+.liftd-burger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+  border: var(--border-standard) rgba(251, 247, 239, 0.25);
+  border-radius: var(--radius-pill);
+  background: rgba(251, 247, 239, 0.10);
+  color: var(--paper);
+  cursor: pointer;
+}
+@media (min-width: 64rem) { .liftd-burger { display: none; } }
+.liftd-burger[aria-expanded='true'] {
+  background: var(--pink);
+  border-color: var(--pink);
+  color: var(--ink);
+}
+.liftd-burger__box { position: relative; display: block; width: 20px; height: 14px; }
+.liftd-burger__bar {
+  position: absolute;
+  left: 0;
+  display: block;
+  width: 20px;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+  transition: transform 0.3s var(--ease-standard), opacity 0.2s var(--ease-standard),
+    top 0.3s var(--ease-standard);
+}
+.liftd-burger__bar:nth-child(1) { top: 0; }
+.liftd-burger__bar:nth-child(2) { top: 6px; }
+.liftd-burger__bar:nth-child(3) { top: 12px; }
+.liftd-burger[aria-expanded='true'] .liftd-burger__bar:nth-child(1) { top: 6px; transform: rotate(45deg); }
+.liftd-burger[aria-expanded='true'] .liftd-burger__bar:nth-child(2) { opacity: 0; }
+.liftd-burger[aria-expanded='true'] .liftd-burger__bar:nth-child(3) { top: 6px; transform: rotate(-45deg); }
+
+/* Mobile drawer + scrim (below 64rem) */
+.liftd-header__scrim {
+  position: fixed;
+  inset: 4.25rem 0 0;
+  z-index: 40;
+  background: rgba(13, 13, 16, 0.70);
+  opacity: 0;
+  transition: opacity 0.3s var(--ease-standard);
+}
+.liftd-header__scrim[hidden] { display: none; }
+.liftd-header__scrim.is-open { opacity: 1; }
+@media (min-width: 64rem) { .liftd-header__scrim { display: none; } }
+
+.liftd-header__drawer {
+  position: absolute;
+  inset-inline: 0;
+  top: 100%;
+  z-index: 60;
+  max-height: calc(100svh - 4.25rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--ink);
+  color: var(--paper);
+  border-bottom: var(--border-heavy) var(--pink);
+  padding: 0.5rem 1.25rem 2rem;
+  transform: translateY(-0.75rem);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s var(--ease-standard), opacity 0.3s var(--ease-standard);
+}
+.liftd-header__drawer.is-open { transform: none; opacity: 1; pointer-events: auto; }
+@media (min-width: 64rem) { .liftd-header__drawer { display: none; } }
+.liftd-drawer__nav { display: flex; flex-direction: column; }
+.liftd-drawer__nav a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 3.5rem;
+  border-bottom: 1px solid rgba(251, 247, 239, 0.10);
+  font-family: var(--font-head);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 1rem;
+  text-decoration: none;
+  color: var(--paper);
+}
+.liftd-drawer__nav a:hover,
+.liftd-drawer__nav a[aria-current='page'] { color: var(--pink); }
+.liftd-drawer__nav a span { opacity: 0.4; }
+.liftd-drawer__cta { width: 100%; margin-top: 1.5rem; min-height: 3.5rem; }
+.liftd-drawer__phone {
+  margin: 1.25rem 0 0;
+  text-align: center;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.liftd-drawer__phone a { color: rgba(251, 247, 239, 0.5); text-decoration: none; }
+
+body.liftd-no-scroll { overflow: hidden; }
+
+/* Footer — mirrors stayliftd.com <SiteFooter/> ------------------------ */
+.liftd-footer__brand { display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; }
+.liftd-footer__brand .liftd-header__logo svg,
+.liftd-footer__brand .liftd-header__logo img { width: clamp(11rem, 22vw, 14rem); }
+.liftd-footer__stay {
+  font-family: var(--font-head);
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  margin: 0;
+}
+.liftd-footer__main {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+@media (min-width: 64rem) {
+  .liftd-footer__main { flex-direction: row; justify-content: space-between; }
+}
+.liftd-footer__cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.5rem 2rem;
+}
+@media (min-width: 40rem) {
+  .liftd-footer__cols { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+.liftd-footer__cols h2 { color: rgba(251, 247, 239, 0.5); margin-bottom: 0.9rem; }
+.liftd-footer__contact {
+  font-style: normal;
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+.liftd-footer__contact a { text-decoration: none; }
+.liftd-footer__contact a:hover { color: var(--pink); }
+.liftd-footer__flavours {
+  margin: 2rem 0 0;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(251, 247, 239, 0.55);
 }

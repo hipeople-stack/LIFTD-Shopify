@@ -1,44 +1,100 @@
+{%- comment -%}
+  Header — mirrors the stayliftd.com <SiteHeader/>. Inline nav on desktop
+  (>=64rem); hamburger + drawer below that. Nav items are the canonical
+  stayliftd.com links; a Shopify "main-menu" with items overrides the primary
+  set if one is assigned.
+{%- endcomment -%}
+{%- liquid
+  assign primary_labels = 'Flavors,Why LIFTD,Where to Buy,Blog,FAQ' | split: ','
+  assign primary_hrefs = 'https://stayliftd.com/flavors,https://stayliftd.com/#why,https://stayliftd.com/where-to-buy,https://stayliftd.com/blog,https://stayliftd.com/faq' | split: ','
+  assign extra_labels = 'About,Lab Results,Wholesale,Contact' | split: ','
+  assign extra_hrefs = 'https://stayliftd.com/about,https://stayliftd.com/coa,https://stayliftd.com/wholesale,https://stayliftd.com/contact' | split: ','
+  assign has_menu = false
+  if section.settings.menu != blank and section.settings.menu.links.size > 0
+    assign has_menu = true
+  endif
+-%}
 <header class="liftd-header">
   <div class="liftd-header__inner">
     <a href="{{ routes.root_url }}" class="liftd-header__logo" aria-label="{{ shop.name }} &ndash; {{ 'general.home' | t }}">
       {% render 'liftd-logo' %}
     </a>
 
-    <button
-      type="button"
-      class="liftd-menu-toggle"
-      data-menu-toggle
-      aria-controls="SiteNav"
-      aria-expanded="false"
-      aria-label="{{ 'accessibility.menu' | t }}"
-    >
-      <svg width="20" height="14" viewBox="0 0 20 14" fill="none" aria-hidden="true" focusable="false">
-        <path d="M0 1h20M0 7h20M0 13h20" stroke="currentColor" stroke-width="2"/>
-      </svg>
-    </button>
+    <nav class="liftd-header__nav" aria-label="{{ 'accessibility.main_navigation' | t }}">
+      {%- if has_menu -%}
+        {%- for link in section.settings.menu.links -%}
+          <a href="{{ link.url }}" {% if link.current %}aria-current="page"{% endif %}>{{ link.title }}</a>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for label in primary_labels -%}
+          <a href="{{ primary_hrefs[forloop.index0] }}">{{ label }}</a>
+        {%- endfor -%}
+      {%- endif -%}
+    </nav>
 
-    <nav id="SiteNav" class="liftd-nav" aria-label="{{ 'accessibility.main_navigation' | t }}">
-      {%- for link in section.settings.menu.links -%}
-        <a
-          href="{{ link.url }}"
-          {% if link.current %}aria-current="page"{% endif %}
-        >
-          {{- link.title -}}
+    <div class="liftd-header__actions">
+      {%- if section.settings.cta_label != blank -%}
+        <a href="{{ section.settings.cta_link | default: 'https://stayliftd.com/order' }}" class="liftd-btn liftd-btn--pink liftd-header__cta">
+          {{ section.settings.cta_label }} <span aria-hidden="true">&rarr;</span>
         </a>
-      {%- endfor -%}
+      {%- endif -%}
 
-      <a href="{{ routes.cart_url }}" class="liftd-header__cart">
-        {{ 'cart.title' | t }}
-        <span
-          class="liftd-cart-count"
-          data-cart-count
-          {% if cart.item_count == 0 %}hidden{% endif %}
-        >
-          {{- cart.item_count -}}
-        </span>
+      <a href="{{ routes.cart_url }}" class="liftd-cart-btn" aria-label="{{ 'cart.title' | t }}">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+          <path d="M2 4h2l1.5 9.5A2 2 0 0 0 7.48 15H15a2 2 0 0 0 1.96-1.6L18 7H5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="8" cy="18" r="1.2" fill="currentColor"/>
+          <circle cx="15" cy="18" r="1.2" fill="currentColor"/>
+        </svg>
+        <span class="liftd-cart-count" data-cart-count {% if cart.item_count == 0 %}hidden{% endif %}>{{ cart.item_count }}</span>
         <span class="visually-hidden">{{ 'cart.items_count' | t: count: cart.item_count }}</span>
       </a>
+
+      <button
+        type="button"
+        class="liftd-burger"
+        data-menu-toggle
+        aria-controls="SiteNav"
+        aria-expanded="false"
+        aria-label="{{ 'accessibility.menu' | t }}"
+      >
+        <span class="liftd-burger__box" aria-hidden="true">
+          <span class="liftd-burger__bar"></span>
+          <span class="liftd-burger__bar"></span>
+          <span class="liftd-burger__bar"></span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <div class="liftd-header__scrim" data-menu-scrim hidden></div>
+
+  <div id="SiteNav" class="liftd-header__drawer" aria-label="{{ 'accessibility.main_navigation' | t }}">
+    <nav class="liftd-drawer__nav" aria-label="{{ 'accessibility.menu' | t }}">
+      {%- if has_menu -%}
+        {%- for link in section.settings.menu.links -%}
+          <a href="{{ link.url }}" {% if link.current %}aria-current="page"{% endif %}>{{ link.title }} <span aria-hidden="true">&rarr;</span></a>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for label in primary_labels -%}
+          <a href="{{ primary_hrefs[forloop.index0] }}">{{ label }} <span aria-hidden="true">&rarr;</span></a>
+        {%- endfor -%}
+      {%- endif -%}
+      {%- for label in extra_labels -%}
+        <a href="{{ extra_hrefs[forloop.index0] }}">{{ label }} <span aria-hidden="true">&rarr;</span></a>
+      {%- endfor -%}
     </nav>
+
+    {%- if section.settings.cta_label != blank -%}
+      <a href="{{ section.settings.cta_link | default: 'https://stayliftd.com/order' }}" class="liftd-btn liftd-btn--pink liftd-drawer__cta">
+        {{ section.settings.cta_label }} <span aria-hidden="true">&rarr;</span>
+      </a>
+    {%- endif -%}
+
+    {%- if section.settings.phone != blank -%}
+      <p class="liftd-drawer__phone">
+        <a href="{{ section.settings.phone_link | default: 'tel:+18604202837' }}">{{ section.settings.phone }}</a>
+      </p>
+    {%- endif -%}
   </div>
 </header>
 
@@ -49,8 +105,31 @@
     {
       "type": "link_list",
       "id": "menu",
-      "label": "Menu",
-      "default": "main-menu"
+      "label": "Primary menu (optional override)",
+      "info": "Leave unset to use the canonical stayliftd.com nav."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA button label",
+      "default": "Get LIFTD"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA button link"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Drawer phone (display)",
+      "default": "860-420-BUDS"
+    },
+    {
+      "type": "text",
+      "id": "phone_link",
+      "label": "Drawer phone link",
+      "default": "tel:+18604202837"
     }
   ]
 }

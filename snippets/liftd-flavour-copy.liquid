@@ -1,0 +1,133 @@
+{% comment %}
+  LIFTD per-flavour copy — single source for the four flavour worlds.
+
+  Kept in code (not the customizer) on purpose: this copy is compliance-
+  reviewed and version-controlled, and the sections that render it stay dumb.
+  Colour still comes from data-liftd-world; only words come from here.
+
+  Usage (capture the scalar you need):
+    {%- capture tag -%}
+      {%- render 'liftd-flavour-copy', world: world, field: 'tag' -%}
+    {%- endcapture -%}
+
+  Fields:
+    tag  tagline  hero_tagline  lead  body
+    traits (pipe-delimited — split on '|')
+    owns_head  owns_sub
+    faq1_q faq1_a  faq2_q faq2_a  faq3_q faq3_a
+
+  Approved facts only. Onset time is UNRESOLVED — any "how fast / how long"
+  answer uses the "start low, go slow" framing, never a number (CLAUDE.md).
+{% endcomment -%}
+{%- case field -%}
+
+{%- when 'tag' -%}
+  {%- case world -%}
+    {%- when 'just-orange' -%}Refreshing
+    {%- when 'grape' -%}Legendary
+    {%- when 'blue-rizz' -%}Fan favorite
+    {%- when 'punch' -%}Nostalgic
+  {%- endcase -%}
+
+{%- when 'tagline' -%}
+  {%- case world -%}
+    {%- when 'just-orange' -%}Orange soda, all grown up.
+    {%- when 'grape' -%}Purple reign.
+    {%- when 'blue-rizz' -%}Nobody can describe blue. Everybody knows blue.
+    {%- when 'punch' -%}The exact childhood note.
+  {%- endcase -%}
+
+{%- when 'hero_tagline' -%}
+  {%- case world -%}
+    {%- when 'just-orange' -%}Orange soda, all grown up.
+    {%- when 'grape' -%}Purple reign.
+    {%- when 'blue-rizz' -%}Nobody can describe blue. Everybody knows blue.
+    {%- when 'punch' -%}The exact childhood note.
+  {%- endcase -%}
+
+{%- when 'lead' -%}
+  {%- case world -%}
+    {%- when 'just-orange' -%}No dye job. No syrup bomb. Just clean orange, the way it tasted before everything got complicated. Bright on the front, a little zest on the back, gone before you decide whether you want another. You will.
+    {%- when 'grape' -%}Everybody has a grape memory. Corner store, quarter in hand, purple mouth for the rest of the afternoon. We kept the memory and dropped the syrup.
+    {%- when 'blue-rizz' -%}Blue raspberry is not a fruit. It never was. It is a feeling, and it is undefeated.
+    {%- when 'punch' -%}Not "fruit flavored." Punch. The red one. The one from every birthday party, every cooler, every plastic cup.
+  {%- endcase -%}
+
+{%- when 'body' -%}
+  {%- case world -%}
+    {%- when 'just-orange' -%}This is the daylight one. Lunch, the drive, the porch at four in the afternoon.
+    {%- when 'grape' -%}Deeper than you expect. Rounder. It sits with you instead of shouting.
+    {%- when 'blue-rizz' -%}Sweet up front, tart underneath, that specific blue thing in the middle that nobody has ever successfully put into words. Our best seller, and it was never close.
+    {%- when 'punch' -%}We chased that specific note for a long time and stopped when we hit it.
+  {%- endcase -%}
+
+{%- when 'traits' -%}
+  {%- case world -%}
+    {%- when 'just-orange' -%}Bright citrus|Clean finish|Low sweetness
+    {%- when 'grape' -%}Deep grape|Rounded|Smooth finish
+    {%- when 'blue-rizz' -%}Sweet-tart|Bold|Unmistakable
+    {%- when 'punch' -%}Full fruit|Familiar|Party-ready
+  {%- endcase -%}
+
+{%- when 'owns_head' -%}
+  {%- case world -%}
+    {%- when 'just-orange' -%}The wind-down.
+    {%- when 'grape' -%}The better pour.
+    {%- when 'blue-rizz' -%}The beach day.
+    {%- when 'punch' -%}The get-together.
+  {%- endcase -%}
+
+{%- when 'owns_sub' -%}
+  {%- case world -%}
+    {%- when 'just-orange' -%}Off the clock, still light out. Crack one open and settle in.
+    {%- when 'grape' -%}The one you reach for instead. Zero alcohol, zero regrets.
+    {%- when 'blue-rizz' -%}Cooler's packed, sun's out. This is the one that goes in the ice.
+    {%- when 'punch' -%}Everyone's in. Pass them around.
+  {%- endcase -%}
+
+{%- when 'faq1_q' -%}
+  {%- case world -%}
+    {%- when 'just-orange' -%}What does Just Orange taste like?
+    {%- when 'grape' -%}Is Grape as sweet as old-school grape soda?
+    {%- when 'blue-rizz' -%}What does Blue Rizz taste like?
+    {%- when 'punch' -%}What does Punch taste like?
+  {%- endcase -%}
+{%- when 'faq1_a' -%}
+  {%- case world -%}
+    {%- when 'just-orange' -%}Clean orange, bright on the front with a little zest on the back. No dye, no syrup bomb — real cane sugar, so you actually taste it.
+    {%- when 'grape' -%}Deeper and rounder than the corner-store version, and not as sweet. Real cane sugar instead of syrup, so it sits with you instead of shouting.
+    {%- when 'blue-rizz' -%}Sweet up front, tart underneath, and that specific blue-raspberry note in the middle. Our best seller, and it was never close.
+    {%- when 'punch' -%}The red one. Full fruit, familiar, the exact note from every cooler and plastic cup — made with real cane sugar.
+  {%- endcase -%}
+
+{%- when 'faq2_q' -%}
+  {%- case world -%}
+    {%- when 'just-orange' -%}How much THC is in a can of Just Orange?
+    {%- when 'grape' -%}How fast does Grape kick in and how long does it last?
+    {%- when 'blue-rizz' -%}Is Blue Rizz a good first THC drink?
+    {%- when 'punch' -%}Can I have more than one can of Punch?
+  {%- endcase -%}
+{%- when 'faq2_a' -%}
+  {%- case world -%}
+    {%- when 'just-orange' -%}3mg THC + 9mg CBG per 12oz can. Hemp-derived THC, zero alcohol, 80 calories. 21+ only.
+    {%- when 'grape' -%}Everyone's different. Start low, go slow — have one, wait, and see how you feel before reaching for another. 3mg THC + 9mg CBG per 12oz can. 21+ only.
+    {%- when 'blue-rizz' -%}It's an easy place to start: 3mg THC + 9mg CBG per 12oz can, hemp-derived, zero alcohol. Start low, go slow, and set your own pace. 21+ only.
+    {%- when 'punch' -%}You set the pace. Start low, go slow, and see how you feel before the next one. Every can is 3mg THC + 9mg CBG per 12oz. 21+ only.
+  {%- endcase -%}
+
+{%- when 'faq3_q' -%}
+  {%- case world -%}
+    {%- when 'just-orange' -%}How fast does Just Orange kick in?
+    {%- when 'grape' -%}Why does LIFTD use real cane sugar?
+    {%- when 'blue-rizz' -%}How many calories are in Blue Rizz?
+    {%- when 'punch' -%}How is Punch different from drinking alcohol at a party?
+  {%- endcase -%}
+{%- when 'faq3_a' -%}
+  {%- case world -%}
+    {%- when 'just-orange' -%}Everyone's different. Start low, go slow — have one, wait, and see how you feel before reaching for another. 21+ only.
+    {%- when 'grape' -%}Because it tastes better. Real cane sugar gives a rounder, cleaner flavor than syrup — the way these drinks tasted before everything got complicated.
+    {%- when 'blue-rizz' -%}80 calories per 12oz can. Real cane sugar, hemp-derived THC, zero alcohol.
+    {%- when 'punch' -%}Zero alcohol, and 3mg THC + 9mg CBG per 12oz can. Same social ritual, a different can in your hand. You set the pace. 21+ only.
+  {%- endcase -%}
+
+{%- endcase -%}

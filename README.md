@@ -49,7 +49,7 @@ shopify theme push --unpublished
 - The compliance block renders from `layout/theme.liquid` on every page and
   is not editable or removable from the customizer. Keep it that way.
 - Approved product facts only: `3mg THC + 9mg CBG per 12oz can`,
-  `Hemp-derived THC`, `21+ only`, `Zero alcohol`. Calories and onset time
-  are **unresolved** — do not add them anywhere.
+  `Hemp-derived THC`, `21+ only`, `Zero alcohol`, `80 calories`. Onset time
+  is still **unresolved** — do not state it anywhere.
 - Never state shipping availability without the state-law qualifier.
 - Reduced motion support is required, not optional.

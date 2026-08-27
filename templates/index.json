@@ -2,63 +2,49 @@
   "sections": {
     "hero": {
       "type": "hero",
-      "settings": {}
-    },
-    "facts": {
-      "type": "facts-strip",
-      "settings": {}
+      "settings": {
+        "eyebrow": "The lineup",
+        "badge": "",
+        "heading_line_1": "Four flavors.",
+        "heading_line_2": "Pick your lift.",
+        "lead": "The drinks you grew up on, built for who you are now. Every can carries 3mg THC, 9mg CBG, and electrolytes for Highdration.",
+        "primary_label": "",
+        "secondary_label": ""
+      }
     },
     "flavours": {
       "type": "flavour-grid",
-      "settings": {}
-    },
-    "story": {
-      "type": "rich-story",
-      "blocks": {
-        "story-text": {
-          "type": "text",
-          "settings": {
-            "text": "<p>We didn't reinvent soda. We made something better. Old-school flavors, crisp carbonation, real cane sugar, so you actually taste it.</p>"
-          }
-        }
-      },
-      "block_order": ["story-text"],
       "settings": {
-        "world": "spine",
-        "eyebrow": "What LIFTD is",
-        "heading": "One drains you. One hydrates you."
+        "eyebrow": "",
+        "heading": "",
+        "limit": 4
       }
     },
-    "faq": {
-      "type": "faq",
-      "blocks": {
-        "q1": {
-          "type": "question",
-          "settings": {
-            "question": "What's in a can?",
-            "answer": "<p>3mg THC + 9mg CBG per 12oz can. Hemp-derived THC. Zero alcohol.</p>"
-          }
-        },
-        "q2": {
-          "type": "question",
-          "settings": {
-            "question": "Who is it for?",
-            "answer": "<p>Adults 21+. LIFTD is the alternative to a beer, not to a green juice. You set the pace.</p>"
-          }
-        },
-        "q3": {
-          "type": "question",
-          "settings": {
-            "question": "Where do you ship?",
-            "answer": "<p>We ship only to states where permitted by law.</p>"
-          }
-        }
-      },
-      "block_order": ["q1", "q2", "q3"],
+    "compare": {
+      "type": "flavour-compare",
       "settings": {
-        "heading": "Questions."
+        "eyebrow": "Scan the field",
+        "heading": "Side by side."
+      }
+    },
+    "build": {
+      "type": "build-strip",
+      "settings": {
+        "heading": "Every can. Same build.",
+        "note": "Hemp-derived THC, made and tested in Connecticut. Every batch published on our lab results page."
+      }
+    },
+    "cta": {
+      "type": "cta-band",
+      "settings": {
+        "heading": "Can't pick one?",
+        "text": "Grab a 4-pack of each and try the whole lineup.",
+        "primary_label": "Order LIFTD",
+        "primary_link": "https://stayliftd.com/order",
+        "secondary_label": "Find it near you",
+        "secondary_link": "https://stayliftd.com/where-to-buy"
       }
     }
   },
-  "order": ["hero", "facts", "flavours", "story", "faq"]
+  "order": ["hero", "flavours", "compare", "build", "cta"]
 }
