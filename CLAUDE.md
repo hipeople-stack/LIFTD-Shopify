@@ -41,10 +41,13 @@ Never "improve" them, never make them quieter, never move them below the fold.
    - `Hemp-derived THC`
    - `21+ only`
    - `Zero alcohol`
+   - `80 calories` (resolved 24 Aug 2026 at the owner's request — the site's
+     "approximately 80-100" phrasing is retired; 80 is the single number).
 
    UNRESOLVED — do not put these anywhere until told they are resolved:
-   - Calories (site says 80, FAQ says "approximately 80-100")
-   - Onset time (homepage says 10-15 min, FAQ says 15-30 min)
+   - Onset time (homepage says 10-15 min, FAQ says 15-30 min). FAQ answers
+     that would state an onset time use the approved "start low, go slow"
+     framing instead of a number.
    - THC source phrasing (FAQ contradicts "hemp-derived" elsewhere)
 3. **Never make a therapeutic claim.** No treatment, cure, prevention,
    diagnosis, health-supplement or recovery framing. No wellness register:

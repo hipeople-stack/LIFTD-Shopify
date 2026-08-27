@@ -1,0 +1,95 @@
+{%- liquid
+  assign world = product.metafields.custom.flavour_world | default: product.handle
+  capture lead
+    render 'liftd-flavour-copy', world: world, field: 'lead'
+  endcapture
+  assign lead = lead | strip
+  capture body
+    render 'liftd-flavour-copy', world: world, field: 'body'
+  endcapture
+  assign body = body | strip
+  capture traits_raw
+    render 'liftd-flavour-copy', world: world, field: 'traits'
+  endcapture
+  assign traits = traits_raw | strip | split: '|'
+-%}
+<section class="liftd-section liftd-section--paper">
+  <div class="liftd-wrapper">
+    <p class="liftd-eyebrow liftd-reveal">{{ section.settings.eyebrow }}</p>
+
+    {%- if lead != blank -%}
+      <p class="liftd-flavour__lead liftd-reveal">{{ lead }}</p>
+    {%- endif -%}
+    {%- if body != blank -%}
+      <p class="liftd-body liftd-flavour__body liftd-reveal">{{ body }}</p>
+    {%- endif -%}
+
+    {%- if traits.size > 0 -%}
+      <ul class="liftd-traits liftd-reveal" role="list" {% if world != blank %}data-liftd-world="{{ world }}"{% endif %}>
+        {%- for trait in traits -%}
+          <li class="liftd-trait">{{ trait | strip }}</li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- comment -%}
+      THE SPECS — identical across all four products. Approved, locked facts
+      only. Calories resolved at 80. No onset time (unresolved). See CLAUDE.md.
+    {%- endcomment -%}
+    <div class="liftd-specs liftd-reveal">
+      <h2 class="liftd-specs__title">{{ section.settings.specs_heading }}</h2>
+      <div class="liftd-specs__row">
+        <p class="liftd-specs__key">Size</p>
+        <p class="liftd-specs__val">12oz can</p>
+      </div>
+      <div class="liftd-specs__row">
+        <p class="liftd-specs__key">THC</p>
+        <p class="liftd-specs__val">3mg hemp-derived THC</p>
+      </div>
+      <div class="liftd-specs__row">
+        <p class="liftd-specs__key">CBG</p>
+        <p class="liftd-specs__val">9mg CBG</p>
+      </div>
+      <div class="liftd-specs__row">
+        <p class="liftd-specs__key">Calories</p>
+        <p class="liftd-specs__val">80 calories</p>
+      </div>
+      <div class="liftd-specs__row">
+        <p class="liftd-specs__key">Sugar</p>
+        <p class="liftd-specs__val">Real cane sugar</p>
+      </div>
+      <div class="liftd-specs__row">
+        <p class="liftd-specs__key">Ingredients</p>
+        <p class="liftd-specs__val">Carbonated water, real cane sugar, natural flavors, citric acid, electrolytes (sodium, potassium), hemp-derived THC, CBG</p>
+      </div>
+      <div class="liftd-specs__row">
+        <p class="liftd-specs__key">Allergens</p>
+        <p class="liftd-specs__val">Vegan and gluten-free. No dairy, nuts, or soy.</p>
+      </div>
+      <div class="liftd-specs__row">
+        <p class="liftd-specs__key">Alcohol</p>
+        <p class="liftd-specs__val">Zero alcohol</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product flavor",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The flavor"
+    },
+    {
+      "type": "text",
+      "id": "specs_heading",
+      "label": "Specs heading",
+      "default": "The specs"
+    }
+  ]
+}
+{% endschema %}
