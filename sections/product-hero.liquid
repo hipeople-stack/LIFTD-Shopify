@@ -1,5 +1,6 @@
 {%- liquid
-  assign world = product.metafields.custom.flavour_world | default: ''
+  assign world = product.metafields.custom.flavour_world | default: product.handle
+  assign display_title = product.title | split: '·' | first | strip
   assign variant = product.selected_or_first_available_variant
   capture tag
     render 'liftd-flavour-copy', world: world, field: 'tag'
@@ -17,7 +18,7 @@
   <div class="liftd-wrapper">
     <p class="liftd-eyebrow liftd-phero__crumb liftd-reveal">
       <a href="{{ routes.root_url }}" style="text-decoration: none;">{{ 'products.breadcrumb.flavors' | t }}</a>
-      &nbsp;/&nbsp;{{ product.title }}
+      &nbsp;/&nbsp;{{ display_title }}
     </p>
 
     {%- if tag != blank -%}
@@ -25,7 +26,7 @@
     {%- endif -%}
 
     {%- comment -%} The one Anton title on this page. {%- endcomment -%}
-    <h1 class="liftd-title liftd-reveal" style="margin-top: 1.25rem;">{{ product.title }}</h1>
+    <h1 class="liftd-title liftd-reveal" style="margin-top: 1.25rem;">{{ display_title }}</h1>
 
     {%- if tagline != blank -%}
       <p class="liftd-headline liftd-headline--sub liftd-phero__tagline liftd-reveal">{{ tagline }}</p>

@@ -9,56 +9,71 @@
       {%- endif -%}
     </div>
 
+    {%- comment -%}
+      Each column uses its Shopify menu when one is assigned; otherwise it
+      falls back to the canonical stayliftd.com links so the footer is correct
+      out of the box. Assign a menu in the customizer to override.
+    {%- endcomment -%}
     <div class="liftd-footer__grid">
-      {%- if section.settings.shop_menu != blank -%}
-        <nav aria-label="{{ 'general.footer.shop' | t }}">
-          <h2 class="liftd-eyebrow">{{ section.settings.shop_heading }}</h2>
-          <ul class="liftd-footer__links" role="list">
-            {%- for link in section.settings.shop_menu.links -%}
-              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-            {%- endfor -%}
-          </ul>
-        </nav>
-      {%- endif -%}
+      <nav aria-label="{{ section.settings.shop_heading }}">
+        <h2 class="liftd-eyebrow">{{ section.settings.shop_heading }}</h2>
+        <ul class="liftd-footer__links" role="list">
+          {%- if section.settings.shop_menu != blank and section.settings.shop_menu.links.size > 0 -%}
+            {%- for link in section.settings.shop_menu.links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}
+          {%- else -%}
+            <li><a href="https://stayliftd.com/order">Order</a></li>
+            <li><a href="https://shop.stayliftd.com">LIFTD Shop</a></li>
+            <li><a href="https://stayliftd.com/where-to-buy">Where to Buy</a></li>
+            <li><a href="https://stayliftd.com/find-in-store">Find in Store</a></li>
+            <li><a href="https://stayliftd.com/delivery-updates">Delivery Updates</a></li>
+          {%- endif -%}
+        </ul>
+      </nav>
 
-      {%- if section.settings.learn_menu != blank -%}
-        <nav aria-label="{{ section.settings.learn_heading }}">
-          <h2 class="liftd-eyebrow">{{ section.settings.learn_heading }}</h2>
-          <ul class="liftd-footer__links" role="list">
-            {%- for link in section.settings.learn_menu.links -%}
-              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-            {%- endfor -%}
-          </ul>
-        </nav>
-      {%- endif -%}
+      <nav aria-label="{{ section.settings.learn_heading }}">
+        <h2 class="liftd-eyebrow">{{ section.settings.learn_heading }}</h2>
+        <ul class="liftd-footer__links" role="list">
+          {%- if section.settings.learn_menu != blank and section.settings.learn_menu.links.size > 0 -%}
+            {%- for link in section.settings.learn_menu.links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}
+          {%- else -%}
+            <li><a href="https://stayliftd.com/flavors">Flavors</a></li>
+            <li><a href="https://stayliftd.com/blog">Blog</a></li>
+            <li><a href="https://stayliftd.com/faq">FAQ</a></li>
+            <li><a href="https://stayliftd.com/coa">Lab Results</a></li>
+          {%- endif -%}
+        </ul>
+      </nav>
 
-      {%- if section.settings.company_menu != blank -%}
-        <nav aria-label="{{ section.settings.company_heading }}">
-          <h2 class="liftd-eyebrow">{{ section.settings.company_heading }}</h2>
-          <ul class="liftd-footer__links" role="list">
-            {%- for link in section.settings.company_menu.links -%}
-              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-            {%- endfor -%}
-          </ul>
-        </nav>
-      {%- endif -%}
+      <nav aria-label="{{ section.settings.company_heading }}">
+        <h2 class="liftd-eyebrow">{{ section.settings.company_heading }}</h2>
+        <ul class="liftd-footer__links" role="list">
+          {%- if section.settings.company_menu != blank and section.settings.company_menu.links.size > 0 -%}
+            {%- for link in section.settings.company_menu.links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}
+          {%- else -%}
+            <li><a href="https://stayliftd.com/about">About</a></li>
+            <li><a href="https://stayliftd.com/wholesale">Wholesale</a></li>
+            <li><a href="https://stayliftd.com/contact">Contact</a></li>
+          {%- endif -%}
+        </ul>
+      </nav>
 
-      {%- if section.settings.legal_menu != blank -%}
-        <nav aria-label="{{ 'general.footer.legal' | t }}">
-          <h2 class="liftd-eyebrow">{{ 'general.footer.legal' | t }}</h2>
-          <ul class="liftd-footer__links" role="list">
-            {%- for link in section.settings.legal_menu.links -%}
-              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-            {%- endfor -%}
-          </ul>
-        </nav>
-      {%- endif -%}
+      <nav aria-label="{{ 'general.footer.legal' | t }}">
+        <h2 class="liftd-eyebrow">{{ 'general.footer.legal' | t }}</h2>
+        <ul class="liftd-footer__links" role="list">
+          {%- if section.settings.legal_menu != blank and section.settings.legal_menu.links.size > 0 -%}
+            {%- for link in section.settings.legal_menu.links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}
+          {%- else -%}
+            <li><a href="https://stayliftd.com/privacy">Privacy</a></li>
+            <li><a href="https://stayliftd.com/accessibility">Accessibility</a></li>
+          {%- endif -%}
+        </ul>
+      </nav>
     </div>
 
     {%- if section.settings.phone != blank or section.settings.support_email != blank or section.settings.wholesale_email != blank -%}
       <div class="liftd-footer__contact">
         {%- if section.settings.phone != blank -%}
-          <a href="tel:{{ section.settings.phone | remove: ' ' | remove: '-' | remove: '(' | remove: ')' }}">{{ section.settings.phone }}</a>
+          <a href="{{ section.settings.phone_link | default: 'tel:+18604202837' }}">{{ section.settings.phone }}</a>
         {%- endif -%}
         {%- if section.settings.support_email != blank -%}
           <a href="mailto:{{ section.settings.support_email }}">{{ section.settings.support_email }}</a>
@@ -87,7 +102,8 @@
     },
     {
       "type": "header",
-      "content": "Columns"
+      "content": "Columns",
+      "info": "Each column falls back to the canonical stayliftd.com links. Assign a menu to override."
     },
     {
       "type": "text",
@@ -98,8 +114,7 @@
     {
       "type": "link_list",
       "id": "shop_menu",
-      "label": "Shop menu",
-      "default": "footer"
+      "label": "Shop menu (optional override)"
     },
     {
       "type": "text",
@@ -110,7 +125,7 @@
     {
       "type": "link_list",
       "id": "learn_menu",
-      "label": "Learn menu"
+      "label": "Learn menu (optional override)"
     },
     {
       "type": "text",
@@ -121,12 +136,12 @@
     {
       "type": "link_list",
       "id": "company_menu",
-      "label": "Company menu"
+      "label": "Company menu (optional override)"
     },
     {
       "type": "link_list",
       "id": "legal_menu",
-      "label": "Legal menu"
+      "label": "Legal menu (optional override)"
     },
     {
       "type": "header",
@@ -135,8 +150,14 @@
     {
       "type": "text",
       "id": "phone",
-      "label": "Phone",
+      "label": "Phone (display)",
       "default": "860-420-BUDS (2837)"
+    },
+    {
+      "type": "text",
+      "id": "phone_link",
+      "label": "Phone link",
+      "default": "tel:+18604202837"
     },
     {
       "type": "text",

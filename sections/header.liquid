@@ -7,7 +7,7 @@
     <div class="liftd-header__actions">
       {%- if section.settings.cta_label != blank -%}
         <a
-          href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}"
+          href="{{ section.settings.cta_link | default: 'https://stayliftd.com/order' }}"
           class="liftd-btn liftd-btn--pink liftd-header__cta"
         >
           {{ section.settings.cta_label }}
@@ -45,14 +45,23 @@
     </div>
 
     <nav id="SiteNav" class="liftd-nav" aria-label="{{ 'accessibility.main_navigation' | t }}">
-      {%- for link in section.settings.menu.links -%}
-        <a
-          href="{{ link.url }}"
-          {% if link.current %}aria-current="page"{% endif %}
-        >
-          {{- link.title -}}
-        </a>
-      {%- endfor -%}
+      {%- if section.settings.menu != blank and section.settings.menu.links.size > 0 -%}
+        {%- for link in section.settings.menu.links -%}
+          <a href="{{ link.url }}" {% if link.current %}aria-current="page"{% endif %}>{{- link.title -}}</a>
+        {%- endfor -%}
+      {%- else -%}
+        {%- comment -%} Default nav — canonical stayliftd.com links. A Shopify
+          "main-menu" with items overrides this in the customizer. {%- endcomment -%}
+        <a href="https://stayliftd.com/flavors">Flavors</a>
+        <a href="https://stayliftd.com/#why">Why LIFTD</a>
+        <a href="https://stayliftd.com/where-to-buy">Where to Buy</a>
+        <a href="https://stayliftd.com/blog">Blog</a>
+        <a href="https://stayliftd.com/faq">FAQ</a>
+        <a href="https://stayliftd.com/about">About</a>
+        <a href="https://stayliftd.com/coa">Lab Results</a>
+        <a href="https://stayliftd.com/wholesale">Wholesale</a>
+        <a href="https://stayliftd.com/contact">Contact</a>
+      {%- endif -%}
     </nav>
   </div>
 </header>

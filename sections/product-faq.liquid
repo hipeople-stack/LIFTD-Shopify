@@ -1,5 +1,5 @@
 {%- liquid
-  assign world = product.metafields.custom.flavour_world | default: ''
+  assign world = product.metafields.custom.flavour_world | default: product.handle
 -%}
 <section class="liftd-section liftd-section--paper">
   <div class="liftd-wrapper">

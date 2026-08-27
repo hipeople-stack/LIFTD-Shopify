@@ -4,7 +4,8 @@
   Accepts: card_product (product object)
 {% endcomment %}
 {%- liquid
-  assign world = card_product.metafields.custom.flavour_world | default: ''
+  assign world = card_product.metafields.custom.flavour_world | default: card_product.handle
+  assign card_title = card_product.title | split: '·' | first | strip
   capture tag
     render 'liftd-flavour-copy', world: world, field: 'tag'
   endcapture
@@ -35,12 +36,12 @@
     {%- endif -%}
   </div>
   <div class="liftd-flavour-card__body">
-    <h3 class="liftd-flavour-card__title">{{ card_product.title }}</h3>
+    <h3 class="liftd-flavour-card__title">{{ card_title }}</h3>
     {%- if tagline != blank -%}
       <p class="liftd-flavour-card__tagline">{{ tagline }}</p>
     {%- endif -%}
     <span class="liftd-flavour-card__link">
-      {{ 'products.card.meet' | t: title: card_product.title }} <span aria-hidden="true">&rarr;</span>
+      {{ 'products.card.meet' | t: title: card_title }} <span aria-hidden="true">&rarr;</span>
     </span>
   </div>
 </a>

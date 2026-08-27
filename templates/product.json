@@ -4,7 +4,9 @@
       "type": "product-hero",
       "settings": {
         "add_label": "Add 4-pack to cart",
-        "store_locator_label": "Find it in store"
+        "shop_link": "https://stayliftd.com/order",
+        "store_locator_label": "Find it in store",
+        "store_locator_link": "https://stayliftd.com/find-in-store"
       }
     },
     "flavor": {
@@ -18,14 +20,16 @@
       "type": "product-owns",
       "settings": {
         "eyebrow": "This flavor owns",
-        "lab_label": "See the lab results"
+        "lab_label": "See the lab results",
+        "lab_link": "https://stayliftd.com/coa"
       }
     },
     "faq": {
       "type": "product-faq",
       "settings": {
         "heading": "Straight answers.",
-        "more_label": "All the questions, answered"
+        "more_label": "All the questions, answered",
+        "more_link": "https://stayliftd.com/faq"
       }
     },
     "others": {
@@ -33,7 +37,9 @@
       "settings": {
         "heading": "Try the others.",
         "primary_label": "Shop the lineup",
-        "secondary_label": "Find it near you"
+        "primary_link": "https://stayliftd.com/order",
+        "secondary_label": "Find it near you",
+        "secondary_link": "https://stayliftd.com/where-to-buy"
       }
     }
   },

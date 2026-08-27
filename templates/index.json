@@ -40,7 +40,9 @@
         "heading": "Can't pick one?",
         "text": "Grab a 4-pack of each and try the whole lineup.",
         "primary_label": "Order LIFTD",
-        "secondary_label": "Find it near you"
+        "primary_link": "https://stayliftd.com/order",
+        "secondary_label": "Find it near you",
+        "secondary_link": "https://stayliftd.com/where-to-buy"
       }
     }
   },

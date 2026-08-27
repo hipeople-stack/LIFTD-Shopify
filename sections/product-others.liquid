@@ -19,7 +19,8 @@
         {%- if other.id == product.id -%}{%- continue -%}{%- endif -%}
         {%- if shown >= 3 -%}{%- break -%}{%- endif -%}
         {%- assign shown = shown | plus: 1 -%}
-        {%- assign other_world = other.metafields.custom.flavour_world | default: '' -%}
+        {%- assign other_world = other.metafields.custom.flavour_world | default: other.handle -%}
+        {%- assign other_title = other.title | split: '·' | first | strip -%}
         <a
           href="{{ other.url }}"
           class="liftd-mini liftd-reveal"
@@ -39,7 +40,7 @@
             {%- endif -%}
           </div>
           <div class="liftd-mini__bar">
-            <span>{{ other.title }}</span>
+            <span>{{ other_title }}</span>
             <span aria-hidden="true">&rarr;</span>
           </div>
         </a>
