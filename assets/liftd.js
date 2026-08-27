@@ -24,15 +24,57 @@
   }
 
   /* ------------------------------------------------------------------
-     Header menu toggle
+     Header menu toggle — drawer + dimmed scrim + body scroll lock.
+     Mirrors stayliftd.com's SiteHeader mobile menu behaviour.
      ------------------------------------------------------------------ */
+  function setMenu(open) {
+    var toggle = document.querySelector('[data-menu-toggle]');
+    if (!toggle) return;
+    var drawer = document.getElementById(toggle.getAttribute('aria-controls'));
+    if (!drawer) return;
+    var scrim = document.querySelector('[data-menu-scrim]');
+    drawer.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.body.classList.toggle('liftd-no-scroll', open);
+    if (scrim) {
+      if (open) {
+        scrim.hidden = false;
+        // next frame so the opacity transition runs
+        window.requestAnimationFrame(function () {
+          scrim.classList.add('is-open');
+        });
+      } else {
+        scrim.classList.remove('is-open');
+        scrim.hidden = true;
+      }
+    }
+  }
+
   document.addEventListener('click', function (event) {
     var toggle = event.target.closest('[data-menu-toggle]');
-    if (!toggle) return;
-    var nav = document.getElementById(toggle.getAttribute('aria-controls'));
-    if (!nav) return;
-    var open = nav.classList.toggle('is-open');
-    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (toggle) {
+      setMenu(toggle.getAttribute('aria-expanded') !== 'true');
+      return;
+    }
+    if (event.target.closest('[data-menu-scrim]')) {
+      setMenu(false);
+      return;
+    }
+    if (event.target.closest('.liftd-header__drawer a')) {
+      setMenu(false);
+    }
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') setMenu(false);
+  });
+
+  // Close the drawer if the viewport grows to the desktop breakpoint.
+  var desktopQuery = window.matchMedia('(min-width: 64rem)');
+  (desktopQuery.addEventListener
+    ? desktopQuery.addEventListener.bind(desktopQuery, 'change')
+    : desktopQuery.addListener.bind(desktopQuery))(function (event) {
+    if (event.matches) setMenu(false);
   });
 
   /* ------------------------------------------------------------------

@@ -739,12 +739,20 @@ button {
 }
 
 .liftd-compliance {
-  border-top: var(--border-standard) var(--paper);
   background: var(--ink);
   color: var(--paper);
-  padding-block: 2rem 2.5rem;
-  font-size: 0.85rem;
+  padding-block: 2rem clamp(3rem, 6vw, 4rem);
+  font-size: 0.8rem;
   line-height: 1.65;
+}
+.liftd-compliance__legal {
+  max-width: 64rem;
+  margin: 0 0 2rem;
+  color: rgba(251, 247, 239, 0.5);
+}
+.liftd-compliance__copy {
+  margin: 0;
+  color: rgba(251, 247, 239, 0.5);
 }
 
 .liftd-compliance__facts {
@@ -1483,82 +1491,205 @@ button {
 /* FAQ footer link ----------------------------------------------------- */
 .liftd-faq-more { margin-top: 1.75rem; }
 
-/* Header refresh — persistent CTA + cart icon + menu -------------------- */
+/* Header — mirrors stayliftd.com <SiteHeader/> ------------------------ */
+.liftd-header__inner { justify-content: space-between; }
+
 .liftd-header__actions {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-left: auto;
+  gap: 0.6rem;
 }
+@media (min-width: 40rem) { .liftd-header__actions { gap: 0.75rem; } }
+
 .liftd-header__cta {
   padding: 0.6rem 1.15rem;
   font-size: 0.72rem;
 }
+@media (max-width: 39.99rem) { .liftd-header__cta { display: none; } }
+
 .liftd-cart-btn {
   position: relative;
   display: inline-grid;
   place-items: center;
   min-width: var(--touch-target);
   min-height: var(--touch-target);
-  border: var(--border-standard) var(--paper);
+  border: var(--border-standard) rgba(251, 247, 239, 0.25);
   border-radius: var(--radius-pill);
-  background: transparent;
+  background: rgba(251, 247, 239, 0.10);
   color: var(--paper);
   text-decoration: none;
   cursor: pointer;
 }
 .liftd-cart-btn:hover { border-color: var(--pink); color: var(--pink); }
-.liftd-cart-btn .liftd-cart-count {
-  position: absolute;
-  top: -6px;
-  right: -6px;
+.liftd-cart-btn .liftd-cart-count { position: absolute; top: -6px; right: -6px; }
+
+/* Inline desktop nav — visible at >=64rem, like stayliftd's lg:flex nav */
+.liftd-header__nav { display: none; }
+@media (min-width: 64rem) {
+  .liftd-header__nav { display: flex; align-items: center; gap: 1.5rem; }
 }
-.liftd-header .liftd-menu-toggle {
+.liftd-header__nav a {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--paper);
+  transition: color var(--dur-interaction) var(--ease-standard);
+}
+.liftd-header__nav a:hover,
+.liftd-header__nav a[aria-current='page'] { color: var(--pink); }
+
+/* Hamburger — only below 64rem */
+.liftd-burger {
   display: inline-flex;
-  position: static;
-  margin-left: 0;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+  border: var(--border-standard) rgba(251, 247, 239, 0.25);
+  border-radius: var(--radius-pill);
+  background: rgba(251, 247, 239, 0.10);
+  color: var(--paper);
+  cursor: pointer;
 }
-/* Nav is a dropdown panel on every viewport in the minimal header. */
-.liftd-header .liftd-nav {
-  display: none;
+@media (min-width: 64rem) { .liftd-burger { display: none; } }
+.liftd-burger[aria-expanded='true'] {
+  background: var(--pink);
+  border-color: var(--pink);
+  color: var(--ink);
+}
+.liftd-burger__box { position: relative; display: block; width: 20px; height: 14px; }
+.liftd-burger__bar {
+  position: absolute;
+  left: 0;
+  display: block;
+  width: 20px;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+  transition: transform 0.3s var(--ease-standard), opacity 0.2s var(--ease-standard),
+    top 0.3s var(--ease-standard);
+}
+.liftd-burger__bar:nth-child(1) { top: 0; }
+.liftd-burger__bar:nth-child(2) { top: 6px; }
+.liftd-burger__bar:nth-child(3) { top: 12px; }
+.liftd-burger[aria-expanded='true'] .liftd-burger__bar:nth-child(1) { top: 6px; transform: rotate(45deg); }
+.liftd-burger[aria-expanded='true'] .liftd-burger__bar:nth-child(2) { opacity: 0; }
+.liftd-burger[aria-expanded='true'] .liftd-burger__bar:nth-child(3) { top: 6px; transform: rotate(-45deg); }
+
+/* Mobile drawer + scrim (below 64rem) */
+.liftd-header__scrim {
+  position: fixed;
+  inset: 4.25rem 0 0;
+  z-index: 40;
+  background: rgba(13, 13, 16, 0.70);
+  opacity: 0;
+  transition: opacity 0.3s var(--ease-standard);
+}
+.liftd-header__scrim[hidden] { display: none; }
+.liftd-header__scrim.is-open { opacity: 1; }
+@media (min-width: 64rem) { .liftd-header__scrim { display: none; } }
+
+.liftd-header__drawer {
   position: absolute;
   inset-inline: 0;
   top: 100%;
+  z-index: 60;
+  max-height: calc(100svh - 4.25rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background: var(--ink);
-  flex-direction: column;
-  align-items: stretch;
-  padding: 1rem 1.25rem 1.5rem;
-  gap: 0.25rem;
+  color: var(--paper);
   border-bottom: var(--border-heavy) var(--pink);
-  margin-left: 0;
+  padding: 0.5rem 1.25rem 2rem;
+  transform: translateY(-0.75rem);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s var(--ease-standard), opacity 0.3s var(--ease-standard);
 }
-.liftd-header .liftd-nav.is-open { display: flex; }
-.liftd-header .liftd-nav a { justify-content: center; }
+.liftd-header__drawer.is-open { transform: none; opacity: 1; pointer-events: auto; }
+@media (min-width: 64rem) { .liftd-header__drawer { display: none; } }
+.liftd-drawer__nav { display: flex; flex-direction: column; }
+.liftd-drawer__nav a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 3.5rem;
+  border-bottom: 1px solid rgba(251, 247, 239, 0.10);
+  font-family: var(--font-head);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 1rem;
+  text-decoration: none;
+  color: var(--paper);
+}
+.liftd-drawer__nav a:hover,
+.liftd-drawer__nav a[aria-current='page'] { color: var(--pink); }
+.liftd-drawer__nav a span { opacity: 0.4; }
+.liftd-drawer__cta { width: 100%; margin-top: 1.5rem; min-height: 3.5rem; }
+.liftd-drawer__phone {
+  margin: 1.25rem 0 0;
+  text-align: center;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.liftd-drawer__phone a { color: rgba(251, 247, 239, 0.5); text-decoration: none; }
 
-/* Footer refresh — four columns + contact ----------------------------- */
-.liftd-footer__brand { display: grid; gap: 0.5rem; margin-bottom: 2.5rem; }
+body.liftd-no-scroll { overflow: hidden; }
+
+/* Footer — mirrors stayliftd.com <SiteFooter/> ------------------------ */
+.liftd-footer__brand { display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; }
+.liftd-footer__brand .liftd-header__logo svg,
+.liftd-footer__brand .liftd-header__logo img { width: clamp(11rem, 22vw, 14rem); }
 .liftd-footer__stay {
   font-family: var(--font-head);
   font-weight: 900;
   font-style: italic;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
-  font-size: 0.9rem;
+  letter-spacing: -0.02em;
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
   margin: 0;
 }
-.liftd-footer__contact {
-  margin: 2.25rem 0 0;
-  display: grid;
-  gap: 0.2rem;
-  font-weight: 500;
+.liftd-footer__main {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
 }
+@media (min-width: 64rem) {
+  .liftd-footer__main { flex-direction: row; justify-content: space-between; }
+}
+.liftd-footer__cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.5rem 2rem;
+}
+@media (min-width: 40rem) {
+  .liftd-footer__cols { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+.liftd-footer__cols h2 { color: rgba(251, 247, 239, 0.5); margin-bottom: 0.9rem; }
+.liftd-footer__contact {
+  font-style: normal;
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+.liftd-footer__contact a { text-decoration: none; }
 .liftd-footer__contact a:hover { color: var(--pink); }
 .liftd-footer__flavours {
-  margin: 1.5rem 0 0;
+  margin: 2rem 0 0;
   font-family: var(--font-head);
   font-weight: 800;
   font-size: 0.7rem;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--pink);
+  color: rgba(251, 247, 239, 0.55);
 }
