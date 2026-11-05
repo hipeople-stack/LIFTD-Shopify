@@ -16,7 +16,10 @@
       "type": "flavour-grid",
       "settings": {
         "eyebrow": "",
-        "heading": "",
+        "heading": "Two strengths.",
+        "heading_line_2": "Same four flavors.",
+        "lead": "Pick your number, then your flavor. Every can matches THC one to one with CBG, with electrolytes for Highdration and 80 calories of the flavor you grew up on. Single-flavor 4-packs, four 12oz cans each.",
+        "show_retired_note": true,
         "limit": 4
       }
     },

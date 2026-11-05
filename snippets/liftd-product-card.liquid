@@ -1,9 +1,16 @@
 {% comment %}
-  Flavour card (home catalog grid). The world takeover comes from
-  data-liftd-world — the card never knows a hex value.
+  Product card (home catalog grid, collection pages). The world takeover
+  comes from data-liftd-world — the card never knows a hex value.
   Accepts: card_product (product object)
+
   Both strengths of a flavour share its world; the strength shows as a
-  label next to the title and as the THC + CBG line.
+  label next to the title and as the THC + CBG line. The card carries its
+  own price and Add, the same as the stayliftd.com shop cards. The Add form
+  is a plain `data-ajax-add` product form, so assets/liftd.js sends it to
+  the shared cart (or the native cart when the shared cart is off).
+
+  Markup note: the card is an article, not one big link — a form can't
+  live inside an anchor. The image and the title link to the product.
 {% endcomment %}
 {%- liquid
   capture world
@@ -20,6 +27,7 @@
   assign strength_facts = strength_facts | strip
   assign card_title = card_product.title | split: '·' | first | strip
   assign card_name = card_title | append: ' ' | append: strength_label
+  assign variant = card_product.selected_or_first_available_variant
   capture tag
     render 'liftd-flavour-copy', world: world, field: 'tag'
   endcapture
@@ -29,12 +37,11 @@
   endcapture
   assign tagline = tagline | strip
 -%}
-<a
-  href="{{ card_product.url }}"
+<article
   class="liftd-flavour-card liftd-reveal"
   {% if world != blank %}data-liftd-world="{{ world }}"{% endif %}
 >
-  <div class="liftd-flavour-card__media">
+  <a href="{{ card_product.url }}" class="liftd-flavour-card__media" tabindex="-1" aria-hidden="true">
     {%- if tag != blank -%}
       <span class="liftd-chip liftd-flavour-card__tag">{{ tag }}</span>
     {%- endif -%}
@@ -45,20 +52,47 @@
         | image_tag:
           widths: '450, 700, 900',
           sizes: '(min-width: 60rem) 22rem, 90vw',
-          alt: card_product.featured_image.alt | default: card_product.title
+          alt: ''
       }}
     {%- endif -%}
-  </div>
+  </a>
   <div class="liftd-flavour-card__body">
     <h3 class="liftd-flavour-card__title">
-      {{ card_title }} <span class="liftd-chip liftd-flavour-card__strength">{{ strength_label }}</span>
+      <a href="{{ card_product.url }}" class="liftd-flavour-card__name">
+        {{- card_title }} <span class="liftd-chip liftd-flavour-card__strength">{{ strength_label }}</span>
+      </a>
     </h3>
     <p class="liftd-flavour-card__facts">{{ 'products.strength.per_can' | t: facts: strength_facts }}</p>
     {%- if tagline != blank -%}
       <p class="liftd-flavour-card__tagline">{{ tagline }}</p>
     {%- endif -%}
-    <span class="liftd-flavour-card__link">
-      {{ 'products.card.meet' | t: title: card_name }} <span aria-hidden="true">&rarr;</span>
-    </span>
+    {%- if variant.available -%}
+      {%- form 'product', card_product, data-ajax-add: 'true', class: 'liftd-flavour-card__buy' -%}
+        <input type="hidden" name="id" value="{{ variant.id }}">
+        <input type="hidden" name="quantity" value="1">
+        <p class="liftd-flavour-card__price">{% render 'liftd-price', item: variant %}</p>
+        <button
+          type="submit"
+          class="liftd-btn liftd-btn--ink liftd-flavour-card__add"
+          aria-label="{{ 'products.card.add_label' | t: title: card_name }}"
+          data-adding-text="{{ 'products.add_to_cart_loading' | t }}"
+          data-added-text="{{ 'products.added_to_cart' | t }}"
+        >
+          {{ 'products.card.add' | t }}
+        </button>
+        <p
+          class="liftd-flavour-card__status"
+          data-add-status
+          data-added-text="{{ 'products.card.added_status' | t: title: card_name }}"
+          role="status"
+          aria-live="polite"
+        ></p>
+      {%- endform -%}
+    {%- else -%}
+      <div class="liftd-flavour-card__buy">
+        <p class="liftd-flavour-card__price">{% render 'liftd-price', item: variant %}</p>
+        <span class="liftd-flavour-card__soldout">{{ 'products.sold_out' | t }}</span>
+      </div>
+    {%- endif -%}
   </div>
-</a>
+</article>
