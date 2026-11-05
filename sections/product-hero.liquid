@@ -1,5 +1,48 @@
 {%- liquid
-  assign world = product.metafields.custom.flavour_world | default: product.handle
+  capture world
+    render 'liftd-world', product: product
+  endcapture
+  assign world = world | strip
+  capture strength_key
+    render 'liftd-strength', product: product, field: 'key'
+  endcapture
+  assign strength_key = strength_key | strip
+  capture strength_label
+    render 'liftd-strength', product: product, field: 'label'
+  endcapture
+  assign strength_label = strength_label | strip
+  capture strength_facts
+    render 'liftd-strength', product: product, field: 'facts'
+  endcapture
+  assign strength_facts = strength_facts | strip
+
+  # The same flavour in the other strength, for the "Also in" link.
+  assign sibling = nil
+  for candidate in collections.all.products
+    if candidate.id == product.id
+      continue
+    endif
+    capture candidate_world
+      render 'liftd-world', product: candidate
+    endcapture
+    assign candidate_world = candidate_world | strip
+    if candidate_world != world
+      continue
+    endif
+    capture candidate_key
+      render 'liftd-strength', product: candidate, field: 'key'
+    endcapture
+    assign candidate_key = candidate_key | strip
+    if candidate_key != strength_key
+      assign sibling = candidate
+      capture sibling_label
+        render 'liftd-strength', product: candidate, field: 'label'
+      endcapture
+      assign sibling_label = sibling_label | strip
+      break
+    endif
+  endfor
+
   assign display_title = product.title | split: '·' | first | strip
   assign variant = product.selected_or_first_available_variant
   capture tag
@@ -32,6 +75,11 @@
       <p class="liftd-headline liftd-headline--sub liftd-phero__tagline liftd-reveal">{{ tagline }}</p>
     {%- endif -%}
 
+    <p class="liftd-phero__strength liftd-reveal">
+      <span class="liftd-chip liftd-phero__strength-label">{{ strength_label }}</span>
+      {{ 'products.strength.per_can' | t: facts: strength_facts }}
+    </p>
+
     <div class="liftd-actions liftd-phero__actions liftd-reveal">
       {%- if variant.available -%}
         {%- form 'product', product, data-ajax-add: 'true', class: 'liftd-phero__buy' -%}
@@ -49,6 +97,12 @@
       {%- else -%}
         <a href="{{ section.settings.shop_link | default: settings.main_site_url }}" class="liftd-btn liftd-btn--ink">
           {{ 'products.sold_out_shop' | t }}
+        </a>
+      {%- endif -%}
+
+      {%- if sibling -%}
+        <a href="{{ sibling.url }}" class="liftd-btn liftd-btn--paper">
+          {{ 'products.strength.also_in' | t: strength: sibling_label }} <span aria-hidden="true">&rarr;</span>
         </a>
       {%- endif -%}
 

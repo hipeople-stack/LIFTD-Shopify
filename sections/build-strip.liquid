@@ -2,6 +2,7 @@
   "Every can. Same build." — the shared spec, as locked benefit pills.
   Pills are hardcoded approved facts (no free-text settings) so unapproved
   numbers can't be introduced from the customizer. Calories resolved at 80.
+  Strength pills come from liftd-strength (5MG and 10MG).
 {% endcomment %}
 <section class="liftd-section liftd-section--pink">
   <div class="liftd-wrapper">
@@ -11,7 +12,12 @@
 
     <ul class="liftd-build__pills liftd-reveal" role="list">
       <li class="liftd-pill">12oz can</li>
-      <li class="liftd-pill">3mg THC + 9mg CBG</li>
+      {%- assign strength_keys = '5mg,10mg' | split: ',' -%}
+      {%- for strength_key in strength_keys -%}
+        {%- capture strength_label -%}{%- render 'liftd-strength', strength_key: strength_key, field: 'label' -%}{%- endcapture -%}
+        {%- capture strength_facts -%}{%- render 'liftd-strength', strength_key: strength_key, field: 'facts' -%}{%- endcapture -%}
+        <li class="liftd-pill">{{ strength_label | strip }}: {{ strength_facts | strip }}</li>
+      {%- endfor -%}
       <li class="liftd-pill">80 calories</li>
       <li class="liftd-pill">Real cane sugar</li>
       <li class="liftd-pill">Electrolytes</li>

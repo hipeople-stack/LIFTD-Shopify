@@ -1693,3 +1693,80 @@ body.liftd-no-scroll { overflow: hidden; }
   text-transform: uppercase;
   color: rgba(251, 247, 239, 0.55);
 }
+
+/* --------------------------------------------------------------------------
+   Strengths — the lineup is four flavours in 5MG and 10MG.
+   Copy comes from snippets/liftd-strength.liquid; nothing here knows a
+   number. Small strength copy always sits on paper so it clears 4.5:1 on
+   every world, including the display-only Blue Rizz and Punch pairs.
+   -------------------------------------------------------------------------- */
+
+/* Product hero: strength stamp under the tagline. */
+.liftd-phero__strength {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1.5rem 0 0;
+  padding: 0.55rem 0.9rem 0.55rem 0.55rem;
+  border: var(--border-standard) var(--ink);
+  border-radius: var(--radius-chip);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--shadow-small) var(--ink);
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.liftd-phero__strength-label {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+/* Flavour card: strength label beside the title, numbers underneath. */
+.liftd-flavour-card__strength {
+  margin-left: 0.35rem;
+  vertical-align: 0.3em;
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.liftd-flavour-card__facts {
+  margin: 0;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Homepage grid: one group per strength. */
+.liftd-strength-group + .liftd-strength-group {
+  margin-top: clamp(3rem, 6vw, 4.5rem);
+}
+.liftd-strength-group__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 1rem;
+  margin: 0 0 1.75rem;
+}
+.liftd-strength-group__label {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-style: italic;
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  letter-spacing: -0.035em;
+  line-height: 0.91;
+  text-transform: uppercase;
+}
+.liftd-strength-group__facts {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}

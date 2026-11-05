@@ -1,5 +1,12 @@
 {%- liquid
-  assign world = product.metafields.custom.flavour_world | default: product.handle
+  capture world
+    render 'liftd-world', product: product
+  endcapture
+  assign world = world | strip
+  capture strength_key
+    render 'liftd-strength', product: product, field: 'key'
+  endcapture
+  assign strength_key = strength_key | strip
 -%}
 <section class="liftd-section liftd-section--paper">
   <div class="liftd-wrapper">
@@ -18,7 +25,7 @@
         endcapture
         assign q = q | strip
         capture a
-          render 'liftd-flavour-copy', world: world, field: a_field
+          render 'liftd-flavour-copy', world: world, field: a_field, strength: strength_key
         endcapture
         assign a = a | strip
       -%}

@@ -12,17 +12,27 @@ extracted from it. Where this file and your instinct disagree, this file wins.
 
 ## Catalog
 
-Four products, one per flavour, one variant each ("Pack Size: 4-Pack").
+Eight products: four flavours, each in two strengths, one 4-pack variant
+each. The strengths are separate products, not variants (Nov 2026 — the
+5MG products kept the original handles; the 10MG products are new).
 
-| Handle | Flavour | Metafield `custom.flavour_world` |
-|---|---|---|
-| `just-orange` | Just Orange | `just-orange` |
-| `grape` | Grape | `grape` |
-| `blue-rizz` | Blue Rizz | `blue-rizz` |
-| `punch` | Punch | `punch` |
+| Flavour | 5MG handle | 10MG handle | World |
+|---|---|---|---|
+| Just Orange | `just-orange` | `just-orange-4-pack-10mg-thc` | `just-orange` |
+| Grape | `grape` | `grape-4-pack-10mg-thc` | `grape` |
+| Blue Rizz | `blue-rizz` | `blue-rizz-4-pack-10mg-thc` | `blue-rizz` |
+| Punch | `punch` | `punch-4-pack-10mg-thc` | `punch` |
+
+World and strength are resolved in one place each —
+`snippets/liftd-world.liquid` and `snippets/liftd-strength.liquid`. Both
+prefer a product metafield when set (`custom.flavour_world`,
+`custom.strength` = `5mg` / `10mg`) and otherwise read the handle. Never
+derive either inline in a section.
 
 There is no variant picker, no faceted filtering, no size selector. Do not
-build them. If the catalog grows, we add them then.
+build them. A product page links to the same flavour's other strength
+("Also in 10MG"); the homepage grid groups cards by strength. That is the
+whole strength UI.
 
 ---
 
@@ -37,12 +47,19 @@ Never "improve" them, never make them quieter, never move them below the fold.
 2. **Never state a product fact that isn't in the approved list below.**
    Unapproved numbers on a live page are a regulatory problem, not a copy bug.
    Approved and locked:
-   - `3mg THC + 9mg CBG per 12oz can`
+   - `5mg THC + 5mg CBG per 12oz can` (5MG)
+   - `10mg THC + 10mg CBG per 12oz can` (10MG)
    - `Hemp-derived THC`
    - `21+ only`
    - `Zero alcohol`
    - `80 calories` (resolved 24 Aug 2026 at the owner's request — the site's
      "approximately 80-100" phrasing is retired; 80 is the single number).
+     Same 80 for both strengths.
+
+   RETIRED — `3mg THC + 9mg CBG per 12oz can` was the launch formula. It was
+   replaced by 5MG and 10MG on 5 Nov 2026 at the owner's request. It may
+   appear only as history ("we launched at 3mg"), never as a product you can
+   buy. Its COAs stay published — never remove them.
 
    UNRESOLVED — do not put these anywhere until told they are resolved:
    - Onset time (homepage says 10-15 min, FAQ says 15-30 min). FAQ answers
@@ -95,8 +112,10 @@ entire sections — background and ink together, never separated.
 - A world takes a whole section edge-to-edge. The device is the takeover, not
   an accent stripe.
 
-Drive worlds with `data-liftd-world="{{ product.metafields.custom.flavour_world }}"`
-on a section wrapper. Nothing downstream needs to know which flavour it is.
+Drive worlds with `data-liftd-world="{{ world }}"` on a section wrapper,
+where `world` comes from `render 'liftd-world', product: product`. Nothing
+downstream needs to know which flavour it is. Both strengths of a flavour
+share its world.
 
 ---
 

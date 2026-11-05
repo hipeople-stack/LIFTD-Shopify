@@ -1,0 +1,19 @@
+{% comment %}
+  Flavour world key for a product — one of just-orange / grape / blue-rizz /
+  punch for a LIFTD product. Single source for every section that sets
+  data-liftd-world or looks up liftd-flavour-copy.
+
+  Uses the custom.flavour_world metafield when set; otherwise the handle,
+  with any strength suffix removed. The 5MG products kept the original
+  handles (`grape`); the 10MG products are `grape-4-pack-10mg-thc`, so a
+  raw handle would miss the world and drop the colour takeover.
+
+  Usage (capture, then strip):
+    {%- capture world -%}{%- render 'liftd-world', product: product -%}{%- endcapture -%}
+    {%- assign world = world | strip -%}
+{% endcomment -%}
+{%- liquid
+  assign world = product.metafields.custom.flavour_world.value | default: product.handle
+  assign world = world | remove: '-4-pack-10mg-thc' | remove: '-4-pack-5mg-thc' | remove: '-10mg-thc' | remove: '-5mg-thc'
+  echo world
+-%}

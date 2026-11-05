@@ -1,0 +1,57 @@
+{% comment %}
+  Strength copy for the 5MG / 10MG lineup. Single source for every place a
+  product's THC + CBG numbers render. Approved, locked facts only
+  (CLAUDE.md); the retired 3mg THC + 9mg CBG formula never renders here.
+
+  Pass either a product or a strength_key ('5mg' / '10mg'):
+    {%- capture label -%}{%- render 'liftd-strength', product: product, field: 'label' -%}{%- endcapture -%}
+    {%- capture facts -%}{%- render 'liftd-strength', strength_key: '10mg', field: 'facts' -%}{%- endcapture -%}
+
+  For a product: the custom.strength metafield ("5mg" / "10mg") when set,
+  otherwise the handle — the 10MG products are the ones whose handle
+  carries "10mg"; the 5MG products kept the original handles.
+
+  Fields:
+    key        5mg | 10mg
+    label      5MG | 10MG             (matches the can)
+    facts      5mg THC + 5mg CBG
+    thc        5mg hemp-derived THC
+    cbg        5mg CBG
+    other_key  the other strength's key
+{% endcomment -%}
+{%- liquid
+  assign resolved = strength_key | default: '' | downcase | strip
+  if resolved != '5mg' and resolved != '10mg'
+    assign resolved = product.metafields.custom.strength.value | default: '' | downcase | strip
+  endif
+  if resolved != '5mg' and resolved != '10mg'
+    if product.handle contains '10mg'
+      assign resolved = '10mg'
+    else
+      assign resolved = '5mg'
+    endif
+  endif
+
+  if resolved == '10mg'
+    assign mg = '10'
+    assign other = '5mg'
+  else
+    assign mg = '5'
+    assign other = '10mg'
+  endif
+
+  case field
+    when 'key'
+      echo resolved
+    when 'label'
+      echo mg | append: 'MG'
+    when 'facts'
+      echo mg | append: 'mg THC + ' | append: mg | append: 'mg CBG'
+    when 'thc'
+      echo mg | append: 'mg hemp-derived THC'
+    when 'cbg'
+      echo mg | append: 'mg CBG'
+    when 'other_key'
+      echo other
+  endcase
+-%}
