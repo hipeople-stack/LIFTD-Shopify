@@ -61,11 +61,14 @@ Never "improve" them, never make them quieter, never move them below the fold.
    appear only as history ("we launched at 3mg"), never as a product you can
    buy. Its COAs stay published — never remove them.
 
+   THC source phrasing — resolved 5 Nov 2026 at the owner's request: always
+   **hemp-derived**. The can art's "cannabis infused beverage" line does not
+   carry over to the storefront copy.
+
    UNRESOLVED — do not put these anywhere until told they are resolved:
    - Onset time (homepage says 10-15 min, FAQ says 15-30 min). FAQ answers
      that would state an onset time use the approved "start low, go slow"
      framing instead of a number.
-   - THC source phrasing (FAQ contradicts "hemp-derived" elsewhere)
 3. **Never make a therapeutic claim.** No treatment, cure, prevention,
    diagnosis, health-supplement or recovery framing. No wellness register:
    avoid *journey, ritual, mindful, wellness, self-care, elevate*.
