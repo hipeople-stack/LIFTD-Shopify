@@ -2,10 +2,24 @@
   Flavour card (home catalog grid). The world takeover comes from
   data-liftd-world — the card never knows a hex value.
   Accepts: card_product (product object)
+  Both strengths of a flavour share its world; the strength shows as a
+  label next to the title and as the THC + CBG line.
 {% endcomment %}
 {%- liquid
-  assign world = card_product.metafields.custom.flavour_world | default: card_product.handle
+  capture world
+    render 'liftd-world', product: card_product
+  endcapture
+  assign world = world | strip
+  capture strength_label
+    render 'liftd-strength', product: card_product, field: 'label'
+  endcapture
+  assign strength_label = strength_label | strip
+  capture strength_facts
+    render 'liftd-strength', product: card_product, field: 'facts'
+  endcapture
+  assign strength_facts = strength_facts | strip
   assign card_title = card_product.title | split: '·' | first | strip
+  assign card_name = card_title | append: ' ' | append: strength_label
   capture tag
     render 'liftd-flavour-copy', world: world, field: 'tag'
   endcapture
@@ -36,12 +50,15 @@
     {%- endif -%}
   </div>
   <div class="liftd-flavour-card__body">
-    <h3 class="liftd-flavour-card__title">{{ card_title }}</h3>
+    <h3 class="liftd-flavour-card__title">
+      {{ card_title }} <span class="liftd-chip liftd-flavour-card__strength">{{ strength_label }}</span>
+    </h3>
+    <p class="liftd-flavour-card__facts">{{ 'products.strength.per_can' | t: facts: strength_facts }}</p>
     {%- if tagline != blank -%}
       <p class="liftd-flavour-card__tagline">{{ tagline }}</p>
     {%- endif -%}
     <span class="liftd-flavour-card__link">
-      {{ 'products.card.meet' | t: title: card_title }} <span aria-hidden="true">&rarr;</span>
+      {{ 'products.card.meet' | t: title: card_name }} <span aria-hidden="true">&rarr;</span>
     </span>
   </div>
 </a>

@@ -1,5 +1,20 @@
 {%- liquid
-  assign world = product.metafields.custom.flavour_world | default: product.handle
+  capture world
+    render 'liftd-world', product: product
+  endcapture
+  assign world = world | strip
+  capture strength_label
+    render 'liftd-strength', product: product, field: 'label'
+  endcapture
+  assign strength_label = strength_label | strip
+  capture strength_thc
+    render 'liftd-strength', product: product, field: 'thc'
+  endcapture
+  assign strength_thc = strength_thc | strip
+  capture strength_cbg
+    render 'liftd-strength', product: product, field: 'cbg'
+  endcapture
+  assign strength_cbg = strength_cbg | strip
   capture lead
     render 'liftd-flavour-copy', world: world, field: 'lead'
   endcapture
@@ -33,8 +48,9 @@
     {%- endif -%}
 
     {%- comment -%}
-      THE SPECS — identical across all four products. Approved, locked facts
-      only. Calories resolved at 80. No onset time (unresolved). See CLAUDE.md.
+      THE SPECS — identical across the lineup except the strength rows, which
+      come from liftd-strength (5MG or 10MG). Approved, locked facts only.
+      Calories resolved at 80. No onset time (unresolved). See CLAUDE.md.
     {%- endcomment -%}
     <div class="liftd-specs liftd-reveal">
       <h2 class="liftd-specs__title">{{ section.settings.specs_heading }}</h2>
@@ -43,12 +59,16 @@
         <p class="liftd-specs__val">12oz can</p>
       </div>
       <div class="liftd-specs__row">
+        <p class="liftd-specs__key">Strength</p>
+        <p class="liftd-specs__val">{{ strength_label }}</p>
+      </div>
+      <div class="liftd-specs__row">
         <p class="liftd-specs__key">THC</p>
-        <p class="liftd-specs__val">3mg hemp-derived THC</p>
+        <p class="liftd-specs__val">{{ strength_thc }}</p>
       </div>
       <div class="liftd-specs__row">
         <p class="liftd-specs__key">CBG</p>
-        <p class="liftd-specs__val">9mg CBG</p>
+        <p class="liftd-specs__val">{{ strength_cbg }}</p>
       </div>
       <div class="liftd-specs__row">
         <p class="liftd-specs__key">Calories</p>

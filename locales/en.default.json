@@ -74,6 +74,10 @@
       "shop_now": "Shop now",
       "meet": "Meet {{ title }}"
     },
+    "strength": {
+      "per_can": "{{ facts }} per 12oz can",
+      "also_in": "Also in {{ strength }}"
+    },
     "breadcrumb": {
       "flavors": "Flavors"
     },

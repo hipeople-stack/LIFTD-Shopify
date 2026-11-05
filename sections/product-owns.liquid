@@ -1,5 +1,8 @@
 {%- liquid
-  assign world = product.metafields.custom.flavour_world | default: product.handle
+  capture world
+    render 'liftd-world', product: product
+  endcapture
+  assign world = world | strip
   capture owns_head
     render 'liftd-flavour-copy', world: world, field: 'owns_head'
   endcapture

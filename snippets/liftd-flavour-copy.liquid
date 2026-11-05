@@ -10,6 +10,10 @@
       {%- render 'liftd-flavour-copy', world: world, field: 'tag' -%}
     {%- endcapture -%}
 
+  Pass strength: '5mg' / '10mg' (from liftd-strength, field 'key') for the
+  FAQ answers — they quote the THC + CBG numbers for the pack on screen.
+  Defaults to 5mg.
+
   Fields:
     tag  tagline  hero_tagline  lead  body
     traits (pipe-delimited — split on '|')
@@ -19,6 +23,16 @@
   Approved facts only. Onset time is UNRESOLVED — any "how fast / how long"
   answer uses the "start low, go slow" framing, never a number (CLAUDE.md).
 {% endcomment -%}
+{%- liquid
+  capture facts
+    render 'liftd-strength', strength_key: strength, field: 'facts'
+  endcapture
+  assign facts = facts | strip
+  capture label
+    render 'liftd-strength', strength_key: strength, field: 'label'
+  endcapture
+  assign label = label | strip
+-%}
 {%- case field -%}
 
 {%- when 'tag' -%}
@@ -55,7 +69,7 @@
 
 {%- when 'body' -%}
   {%- case world -%}
-    {%- when 'just-orange' -%}This is the daylight one. Lunch, the drive, the porch at four in the afternoon.
+    {%- when 'just-orange' -%}This is the daylight one. Lunch, the backyard, the porch at four in the afternoon.
     {%- when 'grape' -%}Deeper than you expect. Rounder. It sits with you instead of shouting.
     {%- when 'blue-rizz' -%}Sweet up front, tart underneath, that specific blue thing in the middle that nobody has ever successfully put into words. Our best seller, and it was never close.
     {%- when 'punch' -%}We chased that specific note for a long time and stopped when we hit it.
@@ -109,10 +123,10 @@
   {%- endcase -%}
 {%- when 'faq2_a' -%}
   {%- case world -%}
-    {%- when 'just-orange' -%}3mg THC + 9mg CBG per 12oz can. Hemp-derived THC, zero alcohol, 80 calories. 21+ only.
-    {%- when 'grape' -%}Everyone's different. Start low, go slow — have one, wait, and see how you feel before reaching for another. 3mg THC + 9mg CBG per 12oz can. 21+ only.
-    {%- when 'blue-rizz' -%}It's an easy place to start: 3mg THC + 9mg CBG per 12oz can, hemp-derived, zero alcohol. Start low, go slow, and set your own pace. 21+ only.
-    {%- when 'punch' -%}You set the pace. Start low, go slow, and see how you feel before the next one. Every can is 3mg THC + 9mg CBG per 12oz. 21+ only.
+    {%- when 'just-orange' -%}This {{ label }} pack is {{ facts }} per 12oz can. Just Orange comes in 5MG and 10MG. Hemp-derived THC, zero alcohol, 80 calories. 21+ only.
+    {%- when 'grape' -%}Everyone's different. Start low, go slow — have one, wait, and see how you feel before reaching for another. This {{ label }} pack is {{ facts }} per 12oz can. 21+ only.
+    {%- when 'blue-rizz' -%}{% if strength == '10mg' %}Start with the 5MG. This 10MG pack is {{ facts }} per 12oz can — the bigger lift, for when you know your pace. Start low, go slow. 21+ only.{% else %}It's an easy place to start: {{ facts }} per 12oz can, hemp-derived, zero alcohol. Start low, go slow, and set your own pace. 21+ only.{% endif %}
+    {%- when 'punch' -%}You set the pace. Start low, go slow, and see how you feel before the next one. Every can in this {{ label }} pack is {{ facts }} per 12oz. 21+ only.
   {%- endcase -%}
 
 {%- when 'faq3_q' -%}
@@ -127,7 +141,7 @@
     {%- when 'just-orange' -%}Everyone's different. Start low, go slow — have one, wait, and see how you feel before reaching for another. 21+ only.
     {%- when 'grape' -%}Because it tastes better. Real cane sugar gives a rounder, cleaner flavor than syrup — the way these drinks tasted before everything got complicated.
     {%- when 'blue-rizz' -%}80 calories per 12oz can. Real cane sugar, hemp-derived THC, zero alcohol.
-    {%- when 'punch' -%}Zero alcohol, and 3mg THC + 9mg CBG per 12oz can. Same social ritual, a different can in your hand. You set the pace. 21+ only.
+    {%- when 'punch' -%}Zero alcohol, and {{ facts }} per 12oz can. Same get-together, a different can in your hand. You set the pace. 21+ only.
   {%- endcase -%}
 
 {%- endcase -%}

@@ -4,6 +4,14 @@
   else
     assign pool = collections.all.products
   endif
+  capture current_world
+    render 'liftd-world', product: product
+  endcapture
+  assign current_world = current_world | strip
+  capture current_key
+    render 'liftd-strength', product: product, field: 'key'
+  endcapture
+  assign current_key = current_key | strip
 -%}
 <section class="liftd-section liftd-section--ink">
   <div class="liftd-wrapper">
@@ -14,12 +22,26 @@
     {%- endif -%}
 
     <div class="liftd-mini-grid">
+      {%- comment -%}
+        The other flavours in the same strength as this pack — not this
+        flavour's other strength (the hero links to that one).
+      {%- endcomment -%}
       {%- assign shown = 0 -%}
       {%- for other in pool -%}
         {%- if other.id == product.id -%}{%- continue -%}{%- endif -%}
         {%- if shown >= 3 -%}{%- break -%}{%- endif -%}
+        {%- liquid
+          capture other_world
+            render 'liftd-world', product: other
+          endcapture
+          assign other_world = other_world | strip
+          capture other_key
+            render 'liftd-strength', product: other, field: 'key'
+          endcapture
+          assign other_key = other_key | strip
+        -%}
+        {%- if other_world == current_world or other_key != current_key -%}{%- continue -%}{%- endif -%}
         {%- assign shown = shown | plus: 1 -%}
-        {%- assign other_world = other.metafields.custom.flavour_world | default: other.handle -%}
         {%- assign other_title = other.title | split: '·' | first | strip -%}
         <a
           href="{{ other.url }}"

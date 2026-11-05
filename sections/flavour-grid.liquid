@@ -1,9 +1,18 @@
+{%- comment -%}
+  The lineup is four flavours in two strengths. Cards are grouped by
+  strength (5MG, then 10MG) and ordered by flavour inside each group, so
+  the grid reads the same however Shopify sorts the collection.
+  "Maximum flavours per strength" caps each group.
+{%- endcomment -%}
 {%- liquid
   if section.settings.collection != blank
     assign products = section.settings.collection.products
   else
     assign products = collections.all.products
   endif
+  assign flavour_order = 'just-orange,grape,blue-rizz,punch' | split: ','
+  assign strength_order = '5mg,10mg' | split: ','
+  assign rendered_any = false
 -%}
 <section class="liftd-section liftd-section--paper">
   <div class="liftd-wrapper">
@@ -14,13 +23,60 @@
       <h2 class="liftd-headline liftd-reveal" style="margin: 0.5rem 0 2.5rem;">{{ section.settings.heading }}</h2>
     {%- endif -%}
 
-    <div class="liftd-grid">
-      {%- for product in products limit: section.settings.limit -%}
-        {% render 'liftd-product-card', card_product: product %}
-      {%- else -%}
-        <p class="liftd-body">{{ 'sections.flavour_grid.empty' | t }}</p>
-      {%- endfor -%}
-    </div>
+    {%- for group_key in strength_order -%}
+      {%- liquid
+        assign group_count = 0
+        capture group_cards
+          for flavour in flavour_order
+            if group_count >= section.settings.limit
+              break
+            endif
+            for candidate in products
+              capture candidate_world
+                render 'liftd-world', product: candidate
+              endcapture
+              assign candidate_world = candidate_world | strip
+              if candidate_world != flavour
+                continue
+              endif
+              capture candidate_key
+                render 'liftd-strength', product: candidate, field: 'key'
+              endcapture
+              assign candidate_key = candidate_key | strip
+              if candidate_key == group_key
+                render 'liftd-product-card', card_product: candidate
+                assign group_count = group_count | plus: 1
+                break
+              endif
+            endfor
+          endfor
+        endcapture
+        capture group_label
+          render 'liftd-strength', strength_key: group_key, field: 'label'
+        endcapture
+        assign group_label = group_label | strip
+        capture group_facts
+          render 'liftd-strength', strength_key: group_key, field: 'facts'
+        endcapture
+        assign group_facts = group_facts | strip
+      -%}
+      {%- if group_count > 0 -%}
+        {%- assign rendered_any = true -%}
+        <div class="liftd-strength-group">
+          <h3 class="liftd-strength-group__head liftd-reveal">
+            <span class="liftd-strength-group__label">{{ group_label }}</span>
+            <span class="liftd-strength-group__facts">{{ 'products.strength.per_can' | t: facts: group_facts }}</span>
+          </h3>
+          <div class="liftd-grid">
+            {{ group_cards }}
+          </div>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- unless rendered_any -%}
+      <p class="liftd-body">{{ 'sections.flavour_grid.empty' | t }}</p>
+    {%- endunless -%}
   </div>
 </section>
 
@@ -49,9 +105,9 @@
     {
       "type": "range",
       "id": "limit",
-      "label": "Maximum products",
-      "min": 2,
-      "max": 12,
+      "label": "Maximum flavours per strength",
+      "min": 1,
+      "max": 4,
       "step": 1,
       "default": 4
     }
