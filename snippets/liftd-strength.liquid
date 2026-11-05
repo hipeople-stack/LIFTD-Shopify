@@ -17,6 +17,7 @@
     facts      5mg THC + 5mg CBG
     thc        5mg hemp-derived THC
     cbg        5mg CBG
+    pitch      one-line pitch (same wording as stayliftd.com)
     other_key  the other strength's key
 {% endcomment -%}
 {%- liquid
@@ -35,9 +36,11 @@
   if resolved == '10mg'
     assign mg = '10'
     assign other = '5mg'
+    assign pitch = 'The bigger lift. For when you know your pace.'
   else
     assign mg = '5'
     assign other = '10mg'
+    assign pitch = 'The everyday lift. Start here.'
   endif
 
   case field
@@ -51,6 +54,8 @@
       echo mg | append: 'mg hemp-derived THC'
     when 'cbg'
       echo mg | append: 'mg CBG'
+    when 'pitch'
+      echo pitch
     when 'other_key'
       echo other
   endcase

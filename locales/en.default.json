@@ -49,7 +49,9 @@
       "aria_label": "Announcement"
     },
     "flavour_grid": {
-      "empty": "No products yet."
+      "empty": "No products yet.",
+      "retired": "Looking for the original 3mg THC + 9mg CBG? It's retired, and every batch's lab report stays published.",
+      "lab_link": "See the lab results"
     }
   },
   "cart": {
@@ -72,7 +74,10 @@
     },
     "card": {
       "shop_now": "Shop now",
-      "meet": "Meet {{ title }}"
+      "meet": "Meet {{ title }}",
+      "add": "Add",
+      "add_label": "Add {{ title }} 4-pack to cart",
+      "added_status": "Added {{ title }} to your cart."
     },
     "strength": {
       "per_can": "{{ facts }} per 12oz can",

@@ -3,6 +3,11 @@
   strength (5MG, then 10MG) and ordered by flavour inside each group, so
   the grid reads the same however Shopify sorts the collection.
   "Maximum flavours per strength" caps each group.
+
+  Matches the stayliftd.com shop section: "Two strengths. Same four
+  flavors." with a banner per strength (big number, per-can numbers,
+  pitch) over its four cards, then the retired-3mg note. The banner copy
+  comes from liftd-strength, so no number is typed into the customizer.
 {%- endcomment -%}
 {%- liquid
   if section.settings.collection != blank
@@ -20,7 +25,13 @@
       <p class="liftd-eyebrow liftd-reveal">{{ section.settings.eyebrow }}</p>
     {%- endif -%}
     {%- if section.settings.heading != blank -%}
-      <h2 class="liftd-headline liftd-reveal" style="margin: 0.5rem 0 2.5rem;">{{ section.settings.heading }}</h2>
+      <h2 class="liftd-headline liftd-reveal" style="margin: 0.5rem 0 0;">
+        {{- section.settings.heading -}}
+        {%- if section.settings.heading_line_2 != blank -%}<br>{{ section.settings.heading_line_2 }}{%- endif -%}
+      </h2>
+    {%- endif -%}
+    {%- if section.settings.lead != blank -%}
+      <p class="liftd-lead liftd-reveal" style="margin-top: 1.5rem;">{{ section.settings.lead }}</p>
     {%- endif -%}
 
     {%- for group_key in strength_order -%}
@@ -59,14 +70,21 @@
           render 'liftd-strength', strength_key: group_key, field: 'facts'
         endcapture
         assign group_facts = group_facts | strip
+        capture group_pitch
+          render 'liftd-strength', strength_key: group_key, field: 'pitch'
+        endcapture
+        assign group_pitch = group_pitch | strip
       -%}
       {%- if group_count > 0 -%}
         {%- assign rendered_any = true -%}
-        <div class="liftd-strength-group">
-          <h3 class="liftd-strength-group__head liftd-reveal">
-            <span class="liftd-strength-group__label">{{ group_label }}</span>
-            <span class="liftd-strength-group__facts">{{ 'products.strength.per_can' | t: facts: group_facts }}</span>
-          </h3>
+        <div class="liftd-strength-group liftd-strength-group--{{ group_key }}">
+          <div class="liftd-strength-banner liftd-reveal">
+            <h3 class="liftd-strength-banner__number">{{ group_label }}</h3>
+            <div class="liftd-strength-banner__copy">
+              <p class="liftd-strength-banner__facts">{{ 'products.strength.per_can' | t: facts: group_facts }}</p>
+              <p class="liftd-strength-banner__pitch">{{ group_pitch }}</p>
+            </div>
+          </div>
           <div class="liftd-grid">
             {{ group_cards }}
           </div>
@@ -77,6 +95,13 @@
     {%- unless rendered_any -%}
       <p class="liftd-body">{{ 'sections.flavour_grid.empty' | t }}</p>
     {%- endunless -%}
+
+    {%- if rendered_any and section.settings.show_retired_note -%}
+      <p class="liftd-strength-retired liftd-reveal">
+        {{ 'sections.flavour_grid.retired' | t }}
+        <a href="{{ settings.main_site_url | append: '/coa' }}" class="liftd-textlink">{{ 'sections.flavour_grid.lab_link' | t }}</a>
+      </p>
+    {%- endif -%}
   </div>
 </section>
 
@@ -95,6 +120,23 @@
       "id": "heading",
       "label": "Heading",
       "default": "All the flavor."
+    },
+    {
+      "type": "text",
+      "id": "heading_line_2",
+      "label": "Heading line 2"
+    },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "Lead paragraph"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_retired_note",
+      "label": "Show the retired 3mg note",
+      "info": "History only: tells shoppers the original 3mg THC + 9mg CBG formula is retired and links to its lab reports.",
+      "default": true
     },
     {
       "type": "collection",
